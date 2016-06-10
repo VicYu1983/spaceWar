@@ -3,3 +3,5 @@ Library/
 ProjectSettings/
 *.csproj
 *.sln
+src/Main/obj/
+*.userprefs
