@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, IEventSenderVerifyPr
 	int idx;
 
 	public void OnAddReceiver(object receiver){
-		(receiver as IPlayerManagerListener).OnPlayerManager (this);
+
 	}
 	public void OnRemoveReceiver(object receiver){
 		

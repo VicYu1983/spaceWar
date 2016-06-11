@@ -3,10 +3,8 @@ using System.Collections;
 
 namespace Model
 {
-	
-public interface IPlayerManagerListener
-{
-	void OnPlayerManager(IPlayerManager mgr);
-}
+	public interface IPlayerManagerListener
+	{
 
+	}
 }

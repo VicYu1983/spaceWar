@@ -7,7 +7,5 @@ namespace Model
 		GameObject CreateTest();
 		GameObject CreateObject( String name, Vector3 location );
 	}
-
-
 }
 
