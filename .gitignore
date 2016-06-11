@@ -5,3 +5,4 @@ ProjectSettings/
 *.sln
 src/Main/obj/
 *.userprefs
+*.dll
