@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+namespace Model
+{
 public class PageManager : MonoBehaviour, IPageManager
 {
 	// Use this for initialization
@@ -16,3 +18,4 @@ public class PageManager : MonoBehaviour, IPageManager
 	}
 }
 
+}

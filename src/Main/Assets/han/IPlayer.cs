@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IPlayer
+namespace Model
 {
 	
+public interface IPlayer
+{
+	int Key{ get; set; }
+	string Group{ get; }
 }
 
+}

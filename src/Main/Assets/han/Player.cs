@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ManagementObject : MonoBehaviour, IPlayer, IPlayerManagerListener
+namespace Model
 {
+	
+public class Player : MonoBehaviour, IPlayer, IPlayerManagerListener
+{
+	public int key;
+	public string group;
+
+	public int Key{ get { return key; } set{ key = value; } }
+	public string Group{ get { return group; } }
+
 	IPlayerManager _playerManager;
 	public void OnPlayerManager(IPlayerManager mgr){
 		if (_playerManager == null) {
@@ -18,6 +27,7 @@ public class ManagementObject : MonoBehaviour, IPlayer, IPlayerManagerListener
 
 	void Destory(){
 		GameContext.single.EventManager.Remove(this);
+		_playerManager.Unmanage (this);
 	}
 	
 	// Update is called once per frame
@@ -27,3 +37,4 @@ public class ManagementObject : MonoBehaviour, IPlayer, IPlayerManagerListener
 	}
 }
 
+}

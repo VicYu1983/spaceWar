@@ -2,11 +2,13 @@
 using System.Collections;
 using UniRx;
 
-public interface IGameContext
+namespace Model
 {
-	IPageManager PageManager { get; }
-	IPlayerManager PlayerManager { get; }
-	IEventManager EventManager { get; }
-	Subject<object[]> RxAction { get; }
-	void PushAction (string cmd, object ps);
+	public interface IGameContext
+	{
+		IPageManager PageManager { get; }
+		IPlayerManager PlayerManager { get; }
+		IObjectFactory ObjectFactory{ get; }
+		IEventManager EventManager { get; }
+	}
 }

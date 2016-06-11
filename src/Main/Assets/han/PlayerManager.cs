@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UniRx;
 
+namespace Model
+{
 public class PlayerManager : MonoBehaviour, IPlayerManager, IEventSenderVerifyProxyDelegate
 {
-	public GameObject model;
-	EventSenderVerifyProxy sender;
-
-	IGameContext ctx;
+	EventSenderVerifyProxy _sender;
+	IGameContext _ctx;
+	HashSet<IPlayer> _players = new HashSet<IPlayer>();
+	int idx;
 
 	public void OnAddReceiver(object receiver){
 		(receiver as IPlayerManagerListener).OnPlayerManager (this);
@@ -19,16 +22,24 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, IEventSenderVerifyPr
 		return receiver is IPlayerManagerListener;
 	}
 
-	public void Manage(IPlayer player){}
+	public void Manage(IPlayer player){
+		player.Key = idx++;
+		_players.Add (player);
+		Debug.Log (player.Group+":"+player.Key);
+	}
+
+	public void Unmanage(IPlayer player){
+		_players.Remove (player);
+	}
 
 	void Awake(){
-		sender = new EventSenderVerifyProxy (this);
+		_sender = new EventSenderVerifyProxy (this);
 	}
 
 	void Start ()
 	{
-		ctx = GameContext.single;
-		ctx.EventManager.Add (sender);
+		_ctx = GameContext.single;
+		_ctx.EventManager.Add (_sender);
 	}
 	
 	// Update is called once per frame
@@ -38,3 +49,4 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, IEventSenderVerifyPr
 	}
 }
 
+}

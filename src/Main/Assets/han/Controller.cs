@@ -2,30 +2,22 @@
 using System.Collections;
 using UniRx;
 
-public class Controller : MonoBehaviour
+namespace Model
 {
-	IGameContext ctx;
-
-	void Start ()
+	public class Controller : MonoBehaviour
 	{
-		ctx = GameContext.single;
-		ctx.RxAction.Subscribe(
-			action => {
-				string cmd = action[0] as string;
-				object p = action[1] as object;
-				Debug.Log(cmd);
-				Debug.Log(p);
-			},
-			e => {},
-			() => {});
+		IGameContext ctx;
 
-		ctx.PushAction ("create player", 1);
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
+		void Start ()
+		{
+			ctx = GameContext.single;
+			ctx.ObjectFactory.CreateTest ();
+		}
+		
+		// Update is called once per frame
+		void Update ()
+		{
+		
+		}
 	}
 }
-

@@ -2,6 +2,9 @@
 using System.Collections;
 using UniRx;
 
+namespace Model
+{
+	
 public class GameContext : MonoBehaviour, IGameContext
 {
 	public static GameContext single;
@@ -15,14 +18,12 @@ public class GameContext : MonoBehaviour, IGameContext
 	EventManager eventManager = new EventManager();
 	public IEventManager EventManager { get{ return eventManager; } }
 
-	Subject<object[]> action = new Subject<object[]>();
-	public Subject<object[]> RxAction { get { return action; } }
+	public MonoBehaviour objectFactory;
+	public IObjectFactory ObjectFactory{ get{ return objectFactory as IObjectFactory; } }
 
 	void Awake(){
 		single = this;
 	}
+}
 
-	public void PushAction(string cmd, object ps){
-		action.OnNext(new object[]{cmd, ps});
-	}
 }
