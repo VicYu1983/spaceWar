@@ -4,20 +4,26 @@ using UniRx;
 
 namespace Model
 {
-	public class Controller : MonoBehaviour
+	public class Controller : MonoBehaviour, IKeyListener
 	{
-		IGameContext ctx;
-
 		void Start ()
 		{
-			ctx = GameContext.single;
-			ctx.ObjectFactory.CreateTest ();
+			GameContext.single.EventManager.Add(this);
+			GameContext.single.ObjectFactory.CreateObject ("player", new Vector3(0,0,600));
 		}
-		
-		// Update is called once per frame
-		void Update ()
-		{
-		
+
+		void Destroy(){
+			GameContext.single.EventManager.Remove(this);
+		}
+
+		public void OnKeyDown(KeyCode code){
+			Debug.Log ("OnKeyDown:"+code);
+		}
+		public void OnKeyHold(KeyCode code){
+			Debug.Log ("OnKeyHold:"+code);
+		}
+		public void OnKeyUp(KeyCode code){
+			Debug.Log ("OnKeyUp:"+code);
 		}
 	}
 }

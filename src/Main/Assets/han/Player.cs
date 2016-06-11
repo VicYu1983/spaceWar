@@ -25,9 +25,9 @@ public class Player : MonoBehaviour, IPlayer, IPlayerManagerListener
 		GameContext.single.EventManager.Add(this);
 	}
 
-	void Destory(){
-		GameContext.single.EventManager.Remove(this);
+	void Destroy(){
 		_playerManager.Unmanage (this);
+		GameContext.single.EventManager.Remove(this);
 	}
 	
 	// Update is called once per frame

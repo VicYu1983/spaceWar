@@ -8,7 +8,6 @@ namespace Model
 public class PlayerManager : MonoBehaviour, IPlayerManager, IEventSenderVerifyProxyDelegate
 {
 	EventSenderVerifyProxy _sender;
-	IGameContext _ctx;
 	HashSet<IPlayer> _players = new HashSet<IPlayer>();
 	int idx;
 
@@ -35,11 +34,14 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, IEventSenderVerifyPr
 	void Awake(){
 		_sender = new EventSenderVerifyProxy (this);
 	}
-
+			
 	void Start ()
 	{
-		_ctx = GameContext.single;
-		_ctx.EventManager.Add (_sender);
+		GameContext.single.EventManager.Add(_sender);
+	}
+
+	void Destroy(){
+		GameContext.single.EventManager.Remove(_sender);
 	}
 	
 	// Update is called once per frame
