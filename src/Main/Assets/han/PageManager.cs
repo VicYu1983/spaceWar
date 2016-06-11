@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class test : MonoBehaviour {
-
+namespace Model
+{
+public class PageManager : MonoBehaviour, IPageManager
+{
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
+}
+
 }
