@@ -33,6 +33,11 @@ namespace Model
 					ctr.InvokeShield ();
 				}
 				break;
+			case KeyCode.Space:
+				{
+					ctr.Shoot ();
+				}
+				break;
 			}
 		}
 		public void OnKeyHold(KeyCode code){
