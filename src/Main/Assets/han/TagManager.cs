@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 
 namespace Model
@@ -24,11 +25,25 @@ namespace Model
 		public void Manage(ITagObject player){
 			player.SeqID = idx++;
 			_players.Add (player);
-			Debug.Log (player.Tag+":"+player.SeqID);
 		}
 
 		public void Unmanage(ITagObject player){
 			_players.Remove (player);
+		}
+
+		public IEnumerable<ITagObject> FindObjectsWithTag(string tag){
+			return 
+				from obj in _players
+				where obj.Tag == tag
+				select obj;
+		}
+
+		public ITagObject FindObjectWithTagAndSeqID(string tag, int seqid){
+			IEnumerable<ITagObject> a = 
+				from obj in _players
+				where obj.Tag == tag && obj.SeqID == seqid
+				select obj;
+			return a.FirstOrDefault (null);
 		}
 
 		void Awake(){

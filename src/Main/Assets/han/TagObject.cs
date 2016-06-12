@@ -6,10 +6,10 @@ namespace Model
 	public class TagObject : MonoBehaviour, ITagObject
 	{
 		public int seqId;
-		public string tag;
+		public string tagName;
 
 		public int SeqID{ get { return seqId; } set{ seqId = value; } }
-		public string Tag{ get { return tag; } set { tag = value; } }
+		public string Tag{ get { return tagName; } set { tagName = value; } }
 
 		void Start ()
 		{

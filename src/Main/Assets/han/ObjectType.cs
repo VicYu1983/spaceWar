@@ -4,7 +4,8 @@ namespace Model
 {
 	public enum ObjectType
 	{
-		Player
+		Player,
+		Bullet
 	}
 }
 

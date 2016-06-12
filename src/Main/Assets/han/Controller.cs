@@ -1,31 +1,73 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UniRx;
+using System.Linq;
 
 namespace Model
 {
 	public class Controller : MonoBehaviour, IKeyListener
 	{
-		void Start ()
-		{
+		void Start (){
 			GameContext.single.EventManager.Add(this);
-			GameObject ship = GameContext.single.ObjectFactory.CreateObject (ObjectType.Player, new Vector3(), new Quaternion());
-			ship.AddComponent<TagObject> ();
-			//ship.GetComponent<Player> ().Group = "player";
+			StartCoroutine (AppStart ());
 		}
-
+		IEnumerator AppStart(){
+			yield return 0;
+			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
+			if (player != null) {
+				
+			}
+		}
 		void Destroy(){
 			GameContext.single.EventManager.Remove(this);
 		}
-
 		public void OnKeyDown(KeyCode code){
-			Debug.Log ("OnKeyDown:"+code);
+			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
+			if (player == null) {
+				return;
+			}
+			var ctr = player.GetComponent<Player> ();
+			switch (code) {
+			case KeyCode.F:
+				{
+					ctr.InvokeShield ();
+				}
+				break;
+			}
 		}
 		public void OnKeyHold(KeyCode code){
-			Debug.Log ("OnKeyHold:"+code);
+			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
+			if (player == null) {
+				return;
+			}
+			var ctr = player.GetComponent<Player> ();
+			switch (code) {
+			case KeyCode.UpArrow:
+				{
+					ctr.Forward (10000);
+				}
+				break;
+			case KeyCode.DownArrow:
+				{
+					ctr.Forward (-10000);
+				}
+				break;
+			case KeyCode.LeftArrow:
+				{
+					ctr.Rotate (10000);
+				}
+				break;
+			case KeyCode.RightArrow:
+				{
+					ctr.Rotate (-10000);
+				}
+				break;
+			}
 		}
 		public void OnKeyUp(KeyCode code){
 			Debug.Log ("OnKeyUp:"+code);
+
+
 		}
 	}
 }

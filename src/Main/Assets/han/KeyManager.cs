@@ -30,7 +30,13 @@ namespace Model
 			GameContext.single.EventManager.Remove(_sender);
 		}
 
-		KeyCode[] checkKeys = new KeyCode[]{KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow};
+		KeyCode[] checkKeys = new KeyCode[]{
+			KeyCode.UpArrow, 
+			KeyCode.DownArrow, 
+			KeyCode.LeftArrow, 
+			KeyCode.RightArrow,
+			KeyCode.F
+		};
 
 		void Update(){
 			foreach( KeyCode key in checkKeys){
