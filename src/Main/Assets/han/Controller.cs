@@ -13,10 +13,7 @@ namespace Model
 		}
 		IEnumerator AppStart(){
 			yield return 0;
-			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
-			if (player != null) {
-				
-			}
+			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
 		}
 		void Destroy(){
 			GameContext.single.EventManager.Remove(this);

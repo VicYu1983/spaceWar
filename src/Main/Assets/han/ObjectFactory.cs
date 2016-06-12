@@ -7,14 +7,22 @@ namespace Model
 	{
 		public GameObject player, bullet;
 		public GameObject CreateObject( ObjectType type, Vector3 location, Quaternion rotation, object info ){
+			GameObject ret;
 			switch (type) {
 			case ObjectType.Player:
-				return Instantiate (player, location, rotation) as GameObject;
+				ret = Instantiate (player, location, rotation) as GameObject;
+				break;
 			case ObjectType.Bullet:
-				return Instantiate (bullet, location, rotation) as GameObject;
+				ret = Instantiate (bullet, location, rotation) as GameObject;
+				break;
 			default:
-				return Instantiate (player, location, rotation) as GameObject;
+				ret = Instantiate (player, location, rotation) as GameObject;
+				break;
 			}
+			if (ret != null) {
+				ret.SetActive (true);
+			}
+			return ret;
 		}
 	}
 }
