@@ -4,8 +4,7 @@ using UnityEngine;
 namespace Model
 {
 	public interface IObjectFactory{
-		GameObject CreateTest();
-		GameObject CreateObject( String name, Vector3 location );
+		GameObject CreateObject( ObjectType type, Vector3 location, Quaternion rotation );
 	}
 }
 

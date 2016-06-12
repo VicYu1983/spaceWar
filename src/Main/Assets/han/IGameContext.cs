@@ -7,7 +7,7 @@ namespace Model
 	public interface IGameContext
 	{
 		IPageManager PageManager { get; }
-		IPlayerManager PlayerManager { get; }
+		ITagManager TagManager { get; }
 		IObjectFactory ObjectFactory{ get; }
 		IEventManager EventManager { get; }
 	}

@@ -11,8 +11,8 @@ namespace Model
 		public MonoBehaviour pageManager = null;
 		public IPageManager PageManager { get{ return pageManager as IPageManager; } }
 
-		public MonoBehaviour playerManager = null;
-		public IPlayerManager PlayerManager { get{ return playerManager as IPlayerManager; } }
+		public MonoBehaviour tagManager = null;
+		public ITagManager TagManager { get{ return tagManager as ITagManager; } }
 
 		EventManager eventManager = new EventManager();
 		public IEventManager EventManager { get{ return eventManager; } }

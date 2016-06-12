@@ -9,7 +9,9 @@ namespace Model
 		void Start ()
 		{
 			GameContext.single.EventManager.Add(this);
-			GameContext.single.ObjectFactory.CreateObject ("player", new Vector3(0,0,600));
+			GameObject ship = GameContext.single.ObjectFactory.CreateObject (ObjectType.Player, new Vector3(), new Quaternion());
+			ship.AddComponent<TagObject> ();
+			//ship.GetComponent<Player> ().Group = "player";
 		}
 
 		void Destroy(){
