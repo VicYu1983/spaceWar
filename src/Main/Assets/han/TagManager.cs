@@ -8,6 +8,8 @@ namespace Model
 {
 	public class TagManager : MonoBehaviour, ITagManager, IEventSenderVerifyProxyDelegate
 	{
+		public int objectCount;
+
 		EventSenderVerifyProxy _sender;
 		HashSet<ITagObject> _players = new HashSet<ITagObject>();
 		int idx;
@@ -55,14 +57,14 @@ namespace Model
 			GameContext.single.EventManager.Add(_sender);
 		}
 
-		void Destroy(){
+		void OnDestroy(){
 			GameContext.single.EventManager.Remove(_sender);
 		}
 		
 		// Update is called once per frame
 		void Update ()
 		{
-		
+			objectCount = _players.Count;
 		}
 	}
 }

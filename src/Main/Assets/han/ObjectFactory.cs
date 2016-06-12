@@ -5,7 +5,7 @@ namespace Model
 {
 	public class ObjectFactory : MonoBehaviour, IObjectFactory
 	{
-		public GameObject player, bullet;
+		public GameObject player, bullet, explode;
 		public GameObject CreateObject( ObjectType type, Vector3 location, Quaternion rotation, object info ){
 			GameObject ret;
 			switch (type) {

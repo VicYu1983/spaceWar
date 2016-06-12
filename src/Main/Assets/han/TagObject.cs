@@ -17,7 +17,7 @@ namespace Model
 			GameContext.single.TagManager.Manage (this);
 		}
 
-		void Destroy(){
+		public void OnDestroy(){
 			GameContext.single.TagManager.Unmanage (this);
 			GameContext.single.EventManager.Remove(this);
 		}

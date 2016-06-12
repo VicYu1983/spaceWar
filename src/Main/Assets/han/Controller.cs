@@ -14,8 +14,10 @@ namespace Model
 		IEnumerator AppStart(){
 			yield return 0;
 			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+			var enemy = GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+			enemy.GetComponent<TagObject> ().Tag = "enemy";
 		}
-		void Destroy(){
+		void OnDestroy(){
 			GameContext.single.EventManager.Remove(this);
 		}
 		public void OnKeyDown(KeyCode code){
@@ -67,9 +69,7 @@ namespace Model
 			}
 		}
 		public void OnKeyUp(KeyCode code){
-			Debug.Log ("OnKeyUp:"+code);
-
-
+			
 		}
 	}
 }

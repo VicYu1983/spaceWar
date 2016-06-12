@@ -26,7 +26,7 @@ namespace Model
 			GameContext.single.EventManager.Add(_sender);
 		}
 
-		void Destroy(){
+		void OnDestroy(){
 			GameContext.single.EventManager.Remove(_sender);
 		}
 

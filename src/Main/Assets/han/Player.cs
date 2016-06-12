@@ -29,6 +29,10 @@ namespace Model
 		void Update(){
 			
 		}
+
+		void OnCollisionEnter2Dx(Collision2D coll) {
+			Debug.Log ("collide player");
+		}
 	}
 }
 
