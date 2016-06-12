@@ -58,12 +58,12 @@ namespace Model
 				break;
 			case KeyCode.LeftArrow:
 				{
-					ctr.Rotate (10000);
+					ctr.Rotate (4000);
 				}
 				break;
 			case KeyCode.RightArrow:
 				{
-					ctr.Rotate (-10000);
+					ctr.Rotate (-4000);
 				}
 				break;
 			}
