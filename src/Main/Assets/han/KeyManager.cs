@@ -26,7 +26,7 @@ namespace Model
 			GameContext.single.EventManager.Add(_sender);
 		}
 
-		void Destroy(){
+		void OnDestroy(){
 			GameContext.single.EventManager.Remove(_sender);
 		}
 
@@ -35,7 +35,8 @@ namespace Model
 			KeyCode.DownArrow, 
 			KeyCode.LeftArrow, 
 			KeyCode.RightArrow,
-			KeyCode.F
+			KeyCode.F,
+			KeyCode.Space
 		};
 
 		void Update(){

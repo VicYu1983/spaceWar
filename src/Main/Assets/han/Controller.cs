@@ -13,12 +13,11 @@ namespace Model
 		}
 		IEnumerator AppStart(){
 			yield return 0;
-			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
-			if (player != null) {
-				
-			}
+			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+			var enemy = GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+			enemy.GetComponent<TagObject> ().Tag = "enemy";
 		}
-		void Destroy(){
+		void OnDestroy(){
 			GameContext.single.EventManager.Remove(this);
 		}
 		public void OnKeyDown(KeyCode code){
@@ -31,6 +30,11 @@ namespace Model
 			case KeyCode.F:
 				{
 					ctr.InvokeShield ();
+				}
+				break;
+			case KeyCode.Space:
+				{
+					ctr.Shoot ();
 				}
 				break;
 			}
@@ -65,9 +69,7 @@ namespace Model
 			}
 		}
 		public void OnKeyUp(KeyCode code){
-			Debug.Log ("OnKeyUp:"+code);
-
-
+			
 		}
 	}
 }
