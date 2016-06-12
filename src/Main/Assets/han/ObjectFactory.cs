@@ -15,6 +15,9 @@ namespace Model
 			case ObjectType.Bullet:
 				ret = Instantiate (bullet, location, rotation) as GameObject;
 				break;
+			case ObjectType.Explode:
+				ret = Instantiate (explode, location, rotation) as GameObject;
+				break;
 			default:
 				ret = Instantiate (player, location, rotation) as GameObject;
 				break;

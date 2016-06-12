@@ -11,6 +11,7 @@ namespace Model
 		public void InvokeShield(){
 			shield.GetComponent<Rigidbody2D> ().AddTorque (20000);
 		}
+
 		public void Forward(float force){
 			body.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (0, force));
 		}
@@ -28,10 +29,6 @@ namespace Model
 
 		void Update(){
 			
-		}
-
-		void OnCollisionEnter2Dx(Collision2D coll) {
-			Debug.Log ("collide player");
 		}
 	}
 }
