@@ -5,7 +5,11 @@ namespace Model
 {
 	public class CollideSender : MonoBehaviour, IEventSenderVerifyProxyDelegate
 	{
+		public GameObject belong;
+
 		EventSenderVerifyProxy proxy;
+
+		public GameObject Belong{ get{ return belong; } }
 
 		void Awake(){
 			proxy = new EventSenderVerifyProxy (this);

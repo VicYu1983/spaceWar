@@ -76,8 +76,8 @@ namespace Model
 			if (coll.contacts.Length > 0) {
 				var contact = coll.contacts [0];
 				GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode, new Vector3 (contact.point.x, contact.point.y));
-				Debug.Log ("controller collide player:" + coll.contacts [0].collider.GetComponent<TagObject> ().Tag);
-				Debug.Log ("controller collide other:" + coll.contacts [0].otherCollider.GetComponent<TagObject> ().Tag);
+				Debug.Log ("controller collide player:" + coll.contacts [0].collider.GetComponent<CollideSender> ().Belong.GetComponent<TagObject>().Tag);
+				Debug.Log ("controller collide other:" + coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong.GetComponent<TagObject>().Tag);
 			}
 		}
 	}
