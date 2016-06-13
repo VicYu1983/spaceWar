@@ -5,7 +5,7 @@ namespace Model
 {
 	public class ObjectFactory : MonoBehaviour, IObjectFactory
 	{
-		public GameObject player, bullet, explode;
+		public GameObject player, bullet, explode, explode2;
 		public GameObject CreateObject( ObjectType type, Vector3 location, Quaternion rotation, object info ){
 			GameObject ret;
 			switch (type) {
@@ -17,6 +17,9 @@ namespace Model
 				break;
 			case ObjectType.Explode:
 				ret = Instantiate (explode, location, rotation) as GameObject;
+				break;
+			case ObjectType.Explode2:
+				ret = Instantiate (explode2, location, rotation) as GameObject;
 				break;
 			default:
 				ret = Instantiate (player, location, rotation) as GameObject;

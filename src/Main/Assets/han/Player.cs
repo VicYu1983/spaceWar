@@ -3,10 +3,33 @@ using UnityEngine;
 
 namespace Model
 {
+	public enum PlayerState{
+		Normal,
+		Destroy
+	}
+
 	public class Player : MonoBehaviour
 	{
 		public GameObject body;
 		public GameObject shield;
+		public int hp = 100;
+
+		public PlayerState State{ 
+			get{ 
+				if (hp <= 0) {
+					return PlayerState.Destroy;
+				} else {
+					return PlayerState.Normal;
+				}
+			}
+		}
+
+		public void Damage(int power){
+			hp -= power;
+			if (hp < 0) {
+				hp = 0;
+			}
+		}
 
 		public void InvokeShield(){
 			shield.GetComponent<Rigidbody2D> ().AddTorque (20000);

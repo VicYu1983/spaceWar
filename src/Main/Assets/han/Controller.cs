@@ -14,8 +14,13 @@ namespace Model
 		IEnumerator AppStart(){
 			yield return 0;
 			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
-			var enemy = GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
-			enemy.GetComponent<TagObject> ().Tag = "enemy";
+
+			var enemies = 
+				from idx in Enumerable.Range(0, 2) 
+				select GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+			foreach (var enemy in enemies) {
+				enemy.GetComponent<TagObject> ().Tag = "enemy";
+			}
 		}
 		void OnDestroy(){
 			GameContext.single.EventManager.Remove(this);
@@ -75,9 +80,31 @@ namespace Model
 		public void OnCollideEnter(Collision2D coll) {
 			if (coll.contacts.Length > 0) {
 				var contact = coll.contacts [0];
-				GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode, new Vector3 (contact.point.x, contact.point.y));
-				Debug.Log ("controller collide player:" + coll.contacts [0].collider.GetComponent<CollideSender> ().Belong.GetComponent<TagObject>().Tag);
-				Debug.Log ("controller collide other:" + coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong.GetComponent<TagObject>().Tag);
+				var obj1 = coll.contacts [0].collider.GetComponent<CollideSender> ().Belong;
+				var obj2 = coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong;
+
+				//Debug.Log (obj1.GetComponent<TagObject> ().Tag);
+				//Debug.Log (obj2.GetComponent<TagObject> ().Tag);
+
+				if (coll.contacts [0].collider.gameObject.name == "shield") {
+					GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode2, new Vector3 (contact.point.x, contact.point.y));
+					return;
+				}
+
+				if (obj1.GetComponent<TagObject> ().Tag == "enemy") {
+					var player = obj1.GetComponent<Player> ();
+					if (obj2.GetComponent<TagObject> ().Tag == "bullet") {
+						GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode, new Vector3 (contact.point.x, contact.point.y));
+
+						var bullet = obj2.GetComponent<Bullet> ();
+						player.Damage (bullet.Power);
+
+						Destroy (bullet.gameObject);
+						if ( player.State == PlayerState.Destroy) {
+							Destroy (player.gameObject);
+						}
+					}
+				}
 			}
 		}
 	}

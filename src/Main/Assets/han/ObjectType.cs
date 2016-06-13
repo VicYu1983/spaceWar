@@ -6,7 +6,8 @@ namespace Model
 	{
 		Player,
 		Bullet,
-		Explode
+		Explode,
+		Explode2
 	}
 }
 
