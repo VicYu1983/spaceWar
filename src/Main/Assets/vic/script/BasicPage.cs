@@ -43,6 +43,7 @@ namespace View
 			foreach (var obj in _sender.Receivers) {
 				(obj as IBasicPageListener).OnClick (this.name, sender.name);
 			}
+
 		}
 
 		void OnDestroy(){
