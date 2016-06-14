@@ -55,6 +55,14 @@ namespace Model
 			return a.FirstOrDefault ();
 		}
 
+		public IEnumerable<ITagObject> FindObjectsWithComponent<T>(){
+			IEnumerable<ITagObject> a = 
+				from obj in _players
+					where obj.Belong.GetComponent<T>() != null
+				select obj;
+			return a;
+		}
+
 		void Awake(){
 			_sender = new EventSenderVerifyProxy (this);
 		}
