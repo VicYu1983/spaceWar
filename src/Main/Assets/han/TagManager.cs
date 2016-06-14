@@ -47,9 +47,10 @@ namespace Model
 		}
 
 		public ITagObject FindObjectWithTagAndSeqID(string tag, int seqid){
+			// 不需要判斷tag, seqId有唯一性
 			IEnumerable<ITagObject> a = 
 				from obj in _players
-				where obj.Tag == tag && obj.SeqID == seqid
+				where obj.SeqID == seqid
 				select obj;
 			return a.FirstOrDefault ();
 		}
