@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 12b1a3c6da586e34994e3f17ba686b40
-timeCreated: 1465733853
+timeCreated: 1465873627
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,7 @@ TextureImporter:
     21300004: texture._2
     21300006: texture._3
     21300008: texture._4
+    21300010: texture._5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -175,23 +176,30 @@ TextureImporter:
     - name: texture._4
       rect:
         serializedVersion: 2
-        x: 153
-        y: 1433
-        width: 245
-        height: 227
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 177
+        y: 1600
+        width: 240
+        height: 35
+      alignment: 9
+      pivot: {x: 0.02597421, y: 0.47440708}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 35.5, y: 88.5}
-        - {x: -48.5, y: 88.5}
-        - {x: -86.5, y: 77.5}
-        - {x: -86.5, y: -39.5}
-        - {x: -47.5, y: -82.5}
-        - {x: 72.5, y: -82.5}
-        - {x: 82.5, y: -45.5}
-        - {x: 82.5, y: 29.5}
-        - {x: 61.5, y: 61.5}
+      - - {x: -6.2338104, y: 18.395752}
+        - {x: -6.2338104, y: -16.604248}
+        - {x: 231.76619, y: -16.604248}
+        - {x: 233.76619, y: -14.604248}
+        - {x: 233.76619, y: 18.395752}
+    - name: texture._5
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 1552
+        width: 227
+        height: 23
+      alignment: 9
+      pivot: {x: 0.0011666588, y: 0.46721616}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 
