@@ -7,5 +7,6 @@ namespace Model
 	{
 		int SeqID{ get; set; }
 		string Tag{ get; set; }
+		GameObject Belong{ get; }
 	}
 }

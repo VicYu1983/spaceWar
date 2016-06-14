@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Model
 {
-	public class Controller : MonoBehaviour, IKeyListener, ICollideSenderListener
+	public class Controller : MonoBehaviour, IKeyListener, ICollideSenderListener, ITagManagerListener
 	{
 		void Start (){
 			GameContext.single.EventManager.Add(this);
@@ -106,6 +106,20 @@ namespace Model
 					}
 				}
 			}
+		}
+
+		public void OnManage(ITagObject obj){
+			Debug.Log (obj.Tag + ":" + obj.SeqID+":create");
+			if (obj.Tag == "enemy") {
+				var enemy = GameContext.single.TagManager.FindObjectWithTagAndSeqID (obj.Tag, obj.SeqID);
+				if (enemy != null) {
+					var info = enemy.Belong.GetComponent<Player> ();
+					Debug.Log ("hp:"+info.HP);
+				}
+			}
+		}
+		public void OnUnManage(ITagObject obj){
+			Debug.Log (obj.Tag + ":" + obj.SeqID+":destroy");
 		}
 	}
 }

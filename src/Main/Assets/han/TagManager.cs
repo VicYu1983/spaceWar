@@ -21,15 +21,21 @@ namespace Model
 			
 		}
 		public bool VerifyReceiverDelegate(object receiver){
-			return false;
+			return receiver is ITagManagerListener;
 		}
 
 		public void Manage(ITagObject player){
 			player.SeqID = idx++;
 			_players.Add (player);
+			foreach (var obj in _sender.Receivers) {
+				(obj as ITagManagerListener).OnManage (player);
+			}
 		}
 
 		public void Unmanage(ITagObject player){
+			foreach (var obj in _sender.Receivers) {
+				(obj as ITagManagerListener).OnUnManage (player);
+			}
 			_players.Remove (player);
 		}
 
@@ -45,7 +51,7 @@ namespace Model
 				from obj in _players
 				where obj.Tag == tag && obj.SeqID == seqid
 				select obj;
-			return a.FirstOrDefault (null);
+			return a.FirstOrDefault ();
 		}
 
 		void Awake(){
