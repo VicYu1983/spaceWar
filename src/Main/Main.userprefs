@@ -1,10 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/han/Controller.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\vic\script\BasicPage.cs">
     <Files>
-      <File FileName="Assets/han/ObjectFactory.cs" Line="20" Column="11" />
-      <File FileName="Assets/han/ObjectType.cs" Line="10" Column="11" />
-      <File FileName="Assets/han/Controller.cs" Line="11" Column="2" />
+      <File FileName="Assets\han\TagManager.cs" Line="36" Column="4" />
+      <File FileName="Assets\han\ObjectFactory.cs" Line="26" Column="11" />
+      <File FileName="Assets\vic\script\GamePlayUI.cs" Line="9" Column="24" />
+      <File FileName="Assets\han\PageManager.cs" Line="12" Column="33" />
+      <File FileName="Assets\vic\script\BasicPage.cs" Line="40" Column="4" />
+      <File FileName="Assets\vic\script\IBasicPageListener.cs" Line="8" Column="3" />
+      <File FileName="Assets\han\IPageManager.cs" Line="7" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
