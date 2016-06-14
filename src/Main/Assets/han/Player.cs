@@ -14,6 +14,8 @@ namespace Model
 		public GameObject shield;
 		public int hp = 100;
 
+		public int HP{ get{ return hp; } }
+
 		public PlayerState State{ 
 			get{ 
 				if (hp <= 0) {

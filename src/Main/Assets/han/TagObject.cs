@@ -10,6 +10,7 @@ namespace Model
 
 		public int SeqID{ get { return seqId; } set{ seqId = value; } }
 		public string Tag{ get { return tagName; } set { tagName = value; } }
+		public GameObject Belong{ get{ return this.gameObject; } }
 
 		void Start ()
 		{
