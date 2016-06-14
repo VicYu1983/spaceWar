@@ -7,7 +7,8 @@ namespace Model
 		Player,
 		Bullet,
 		Explode,
-		Explode2
+		Explode2,
+		Explode3
 	}
 }
 

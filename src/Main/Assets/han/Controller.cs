@@ -63,12 +63,12 @@ namespace Model
 				break;
 			case KeyCode.LeftArrow:
 				{
-					ctr.Rotate (4000);
+					ctr.Rotate (2000);
 				}
 				break;
 			case KeyCode.RightArrow:
 				{
-					ctr.Rotate (-4000);
+					ctr.Rotate (-2000);
 				}
 				break;
 			}
@@ -94,13 +94,14 @@ namespace Model
 				if (obj1.GetComponent<TagObject> ().Tag == "enemy") {
 					var player = obj1.GetComponent<Player> ();
 					if (obj2.GetComponent<TagObject> ().Tag == "bullet") {
-						GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode, new Vector3 (contact.point.x, contact.point.y));
+						GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode3, new Vector3 (contact.point.x, contact.point.y));
 
 						var bullet = obj2.GetComponent<Bullet> ();
 						player.Damage (bullet.Power);
 
 						Destroy (bullet.gameObject);
 						if ( player.State == PlayerState.Destroy) {
+							GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode, new Vector3 (contact.point.x, contact.point.y));
 							Destroy (player.gameObject);
 						}
 					}
