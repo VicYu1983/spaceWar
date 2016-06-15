@@ -10,5 +10,6 @@ namespace Model
 		void Unmanage(ITagObject player);
 		IEnumerable<ITagObject> FindObjectsWithTag (string tag);
 		ITagObject FindObjectWithTagAndSeqID (string tag, int seqid);
+		IEnumerable<ITagObject> FindObjectsWithComponent<T> ();
 	}
 }
