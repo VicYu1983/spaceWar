@@ -43,12 +43,18 @@ namespace View
 			foreach (var obj in _sender.Receivers) {
 				(obj as IBasicPageListener).OnClick (this.name, sender.name);
 			}
-			GetComponent<Animator> ().Play ("StartPageClose");
 		}
 
 		public void OnAnimationTrigger( string name ){
-			foreach (var obj in _sender.Receivers) {
-				(obj as IBasicPageListener).OnAnimationTrigger (this.name, name);
+			switch (name) {
+			case "End":
+				Destroy (this);
+				break;
+			default:
+				foreach (var obj in _sender.Receivers) {
+					(obj as IBasicPageListener).OnAnimationTrigger (this.name, name);
+				}
+				break;
 			}
 		}
 

@@ -9,10 +9,13 @@ namespace Model
 		public GameObject startPrefab;
 		public GameObject gameplayPrefab;
 
+		GameObject currentPage;
+		GameObject[] popups;
+
 		// Use this for initialization
 		void Start ()
 		{
-		
+			
 		}
 		
 		// Update is called once per frame
@@ -21,16 +24,43 @@ namespace Model
 		
 		}
 		
-		public void ChangePage ( string name ){
+		public void ChangePage ( string pageName ){
+			GameObject newPage = null;
+			if (currentPage != null) {
+				if (currentPage.name != pageName) {
+					//close current page and new page
+					currentPage.GetComponent<Animator>().Play( currentPage.name + "Close" );
+					newPage = pageFactory( pageName );
+				} else {
+					//same page, do nothing!
+				}
+			} else {
+				//new page
+				newPage = pageFactory( pageName );
+			}
+			if (newPage != null) {
+				currentPage = newPage;
+				currentPage.transform.parent = this.transform;
+			}
+		}
+
+		public void OpenPopup( string pageName ){
 
 		}
 
-		public void OpenPopup( string name ){
+		public void ClosePopup( string pageName ){
 
 		}
 
-		public void ClosePopup( string name ){
-
+		GameObject pageFactory( string pageName ){
+			switch (pageName) {
+			case "startPage":
+				return Instantiate (startPrefab);
+			case "gameplayPage":
+				return Instantiate (gameplayPrefab);
+			default:
+				return null;
+			}
 		}
 	}
 

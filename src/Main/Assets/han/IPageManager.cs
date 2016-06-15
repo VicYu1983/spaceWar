@@ -5,8 +5,8 @@ namespace Model
 {
 	public interface IPageManager
 	{
-		void ChangePage (string name );
-		void OpenPopup( string name );
-		void ClosePopup( string name );
+		void ChangePage (string pageName );
+		void OpenPopup( string pageName );
+		void ClosePopup( string pageName );
 	}
 }
