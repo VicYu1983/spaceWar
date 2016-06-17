@@ -5,6 +5,7 @@ namespace Model
 	public enum ObjectType
 	{
 		Player,
+		Enemy,
 		Bullet,
 		Explode,
 		Explode2,

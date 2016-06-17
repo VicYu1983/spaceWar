@@ -73,7 +73,7 @@ namespace Model
 
 					var enemies = 
 						from idx in Enumerable.Range(0, 2) 
-						select GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+						select GameContext.single.ObjectFactory.CreateObject (ObjectType.Enemy);
 					foreach (var enemy in enemies) {
 						enemy.GetComponent<TagObject> ().Tag = "enemy";
 					}
