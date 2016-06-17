@@ -11,8 +11,12 @@ namespace Model
 			GameContext.single.EventManager.Add(this);
 			StartCoroutine (AppStart ());
 		}
+		void OnDestroy(){
+			GameContext.single.EventManager.Remove(this);
+		}
 		IEnumerator AppStart(){
 			yield return 0;
+			//GameContext.single.PageManager.ChangePage ("startPage");
 			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
 
 			var enemies = 
@@ -22,56 +26,11 @@ namespace Model
 				enemy.GetComponent<TagObject> ().Tag = "enemy";
 			}
 		}
-		void OnDestroy(){
-			GameContext.single.EventManager.Remove(this);
-		}
 		public void OnKeyDown(KeyCode code){
-			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
-			if (player == null) {
-				return;
-			}
-			var ctr = player.GetComponent<Player> ();
-			switch (code) {
-			case KeyCode.F:
-				{
-					ctr.InvokeShield ();
-				}
-				break;
-			case KeyCode.Space:
-				{
-					ctr.Shoot ();
-				}
-				break;
-			}
+			
 		}
 		public void OnKeyHold(KeyCode code){
-			var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault() as MonoBehaviour;
-			if (player == null) {
-				return;
-			}
-			var ctr = player.GetComponent<Player> ();
-			switch (code) {
-			case KeyCode.UpArrow:
-				{
-					ctr.Forward (10000);
-				}
-				break;
-			case KeyCode.DownArrow:
-				{
-					ctr.Forward (-10000);
-				}
-				break;
-			case KeyCode.LeftArrow:
-				{
-					ctr.Rotate (2000);
-				}
-				break;
-			case KeyCode.RightArrow:
-				{
-					ctr.Rotate (-2000);
-				}
-				break;
-			}
+			
 		}
 		public void OnKeyUp(KeyCode code){
 			
@@ -82,9 +41,6 @@ namespace Model
 				var contact = coll.contacts [0];
 				var obj1 = coll.contacts [0].collider.GetComponent<CollideSender> ().Belong;
 				var obj2 = coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong;
-
-				//Debug.Log (obj1.GetComponent<TagObject> ().Tag);
-				//Debug.Log (obj2.GetComponent<TagObject> ().Tag);
 
 				if (coll.contacts [0].collider.gameObject.name == "shield") {
 					GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode2, new Vector3 (contact.point.x, contact.point.y));
