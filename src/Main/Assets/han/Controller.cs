@@ -2,10 +2,11 @@
 using System.Collections;
 using UniRx;
 using System.Linq;
+using View;
 
 namespace Model
 {
-	public class Controller : MonoBehaviour, IKeyListener, ICollideSenderListener, ITagManagerListener
+	public class Controller : MonoBehaviour, IKeyListener, ICollideSenderListener, ITagManagerListener, IBasicPageListener
 	{
 		void Start (){
 			GameContext.single.EventManager.Add(this);
@@ -16,15 +17,6 @@ namespace Model
 		}
 		IEnumerator AppStart(){
 			yield return 0;
-			//GameContext.single.PageManager.ChangePage ("startPage");
-			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
-
-			var enemies = 
-				from idx in Enumerable.Range(0, 2) 
-				select GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
-			foreach (var enemy in enemies) {
-				enemy.GetComponent<TagObject> ().Tag = "enemy";
-			}
 		}
 		public void OnKeyDown(KeyCode code){
 			
@@ -71,5 +63,23 @@ namespace Model
 		public void OnUnManage(ITagObject obj){
 			
 		}
+		public void OnClick( PageName pageName, string btnName ){
+			
+		}
+		public void OnAnimationTrigger( PageName pageName, string eventName ){
+			if (pageName == PageName.GameplayPage) {
+				if (eventName == "GameStart") {
+					GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+
+					var enemies = 
+						from idx in Enumerable.Range(0, 2) 
+						select GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
+					foreach (var enemy in enemies) {
+						enemy.GetComponent<TagObject> ().Tag = "enemy";
+					}
+				}
+			}
+		}
+
 	}
 }

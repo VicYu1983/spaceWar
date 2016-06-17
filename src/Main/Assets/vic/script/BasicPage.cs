@@ -46,7 +46,7 @@ namespace View
 		}
 
 		public void OnAnimationTrigger( string name ){
-
+			print ("OnAnimationTrigger " + (PageName)Enum.Parse( typeof( PageName ), this.name ) + ": " + name);
 			switch (name) {
 			case "End":
 				Destroy (this.gameObject);
