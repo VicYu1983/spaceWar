@@ -34,7 +34,7 @@ namespace Model
 		}
 
 		public void InvokeShield(){
-			shield.GetComponent<Rigidbody2D> ().AddTorque (20000);
+			shield.GetComponent<Rigidbody2D> ().AddTorque (60000);
 		}
 
 		public void Forward(float force){
