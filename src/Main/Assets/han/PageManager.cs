@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using View;
 
 namespace Model
 {
@@ -24,11 +25,15 @@ namespace Model
 		
 		}
 		
-		public void ChangePage ( string pageName ){
+		public void ChangePage ( PageName pageName ){
+			print ("ChangePage" + pageName.ToString ());
+
 			GameObject newPage = null;
 			if (currentPage != null) {
-				if (currentPage.name != pageName) {
+				if (currentPage.name != pageName.ToString()) {
 					//close current page and new page
+
+					print (currentPage.name + "Close");
 					currentPage.GetComponent<Animator>().Play( currentPage.name + "Close" );
 					newPage = pageFactory( pageName );
 				} else {
@@ -41,22 +46,23 @@ namespace Model
 			if (newPage != null) {
 				currentPage = newPage;
 				currentPage.transform.parent = this.transform;
+				currentPage.name = pageName.ToString();
 			}
 		}
 
-		public void OpenPopup( string pageName ){
+		public void OpenPopup( PageName pageName ){
 
 		}
 
-		public void ClosePopup( string pageName ){
+		public void ClosePopup( PageName pageName ){
 
 		}
 
-		GameObject pageFactory( string pageName ){
+		GameObject pageFactory( PageName pageName ){
 			switch (pageName) {
-			case "startPage":
+			case PageName.IntroPage:
 				return Instantiate (startPrefab);
-			case "gameplayPage":
+			case PageName.GameplayPage:
 				return Instantiate (gameplayPrefab);
 			default:
 				return null;

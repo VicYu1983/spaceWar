@@ -4,8 +4,8 @@ namespace View
 {
 	public interface IBasicPageListener
 	{
-		void OnClick( string pageName, string btnName );
-		void OnAnimationTrigger( string pageName, string eventName );
+		void OnClick( PageName pageName, string btnName );
+		void OnAnimationTrigger( PageName pageName, string eventName );
 	}
 }
 

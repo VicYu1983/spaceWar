@@ -41,18 +41,19 @@ namespace View
 
 		void OnBtnClick( GameObject sender ){
 			foreach (var obj in _sender.Receivers) {
-				(obj as IBasicPageListener).OnClick (this.name, sender.name);
+				(obj as IBasicPageListener).OnClick ((PageName)Enum.Parse( typeof( PageName ), this.name ), sender.name);
 			}
 		}
 
 		public void OnAnimationTrigger( string name ){
+
 			switch (name) {
 			case "End":
-				Destroy (this);
+				Destroy (this.gameObject);
 				break;
 			default:
 				foreach (var obj in _sender.Receivers) {
-					(obj as IBasicPageListener).OnAnimationTrigger (this.name, name);
+					(obj as IBasicPageListener).OnAnimationTrigger ((PageName)Enum.Parse( typeof(PageName), this.name ), name);
 				}
 				break;
 			}
