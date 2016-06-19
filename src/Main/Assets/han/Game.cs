@@ -53,20 +53,20 @@ namespace Model
 		}
 
 		public void StartGame(int level){
+			StartCoroutine (StartGameStepByStep ());
+		}
+		IEnumerator StartGameStepByStep(){
 			DestroyGame ();
+			yield return 0;
 			GameContext.single.ObjectFactory.CreateObject (ObjectType.Player);
-
 			var enemies = 
 				from idx in Enumerable.Range(0, 2) 
 				select GameContext.single.ObjectFactory.CreateObject (ObjectType.Enemy);
 			foreach (var enemy in enemies) {
 				enemy.GetComponent<TagObject> ().Tag = "enemy";
 			}
-			StartCoroutine (ChangeStateAtNextUpdate (GameState.Play));
-		}
-		IEnumerator ChangeStateAtNextUpdate(GameState s){
 			yield return 0;
-			State = s;
+			State = GameState.Play;
 		}
 		public void DestroyGame(){
 			var players = 
