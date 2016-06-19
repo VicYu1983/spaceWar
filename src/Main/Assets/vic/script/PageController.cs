@@ -31,7 +31,17 @@ namespace View
 					break;
 				}
 				break;
-			case PageName.GameplayPage:
+			case PageName.EndPanel:
+				switch (btnName) {
+				case "btn_again":
+					GameContext.single.PageManager.PlayAnimation (PageName.GameplayPage.ToString () + "Open");
+					GameContext.single.PageManager.ClosePopup (PageName.EndPanel);
+					break;
+				case "btn_exit":
+					GameContext.single.PageManager.ChangePage ( PageName.IntroPage );
+					GameContext.single.PageManager.ClosePopup (PageName.EndPanel);
+					break;
+				}
 				break;
 			}
 		}

@@ -39,7 +39,13 @@ namespace Model
 			
 		}
 		public void OnClick( PageName pageName, string btnName ){
-			
+			if (pageName == PageName.EndPanel) {
+				if (btnName == "btn_again") {
+					GameContext.single.Game.StartGame (0);
+				} else if (btnName == "btn_exit") {
+					GameContext.single.Game.DestroyGame ();
+				}
+			}
 		}
 		public void OnAnimationTrigger( PageName pageName, string eventName ){
 			if (pageName == PageName.GameplayPage) {
@@ -47,7 +53,6 @@ namespace Model
 					GameContext.single.Game.StartGame (0);
 				}
 			}
-
 		}
 
 	}

@@ -8,5 +8,6 @@ namespace Model
 		void ChangePage ( PageName pageName );
 		void OpenPopup( PageName pageName );
 		void ClosePopup( PageName pageName );
+		void PlayAnimation (string animationName);
 	}
 }

@@ -62,7 +62,11 @@ namespace Model
 			foreach (var enemy in enemies) {
 				enemy.GetComponent<TagObject> ().Tag = "enemy";
 			}
-			State = GameState.Play;
+			StartCoroutine (ChangeStateAtNextUpdate (GameState.Play));
+		}
+		IEnumerator ChangeStateAtNextUpdate(GameState s){
+			yield return 0;
+			State = s;
 		}
 		public void DestroyGame(){
 			var players = 

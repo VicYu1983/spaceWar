@@ -28,6 +28,25 @@ namespace Model
 		
 		}
 		
+		void ClosePage( GameObject page ){
+			print (page.name + "Close");
+			try{
+				page.GetComponent<Animator>().Play( page.name + "Close" );
+			}catch( Exception e ){
+				Destroy (page.gameObject);
+				print (e);
+			}
+		}
+
+		public void PlayAnimation( string animationName ){
+			try{
+				currentPage.GetComponent<Animator> ().Play (animationName);
+			}catch( Exception e){
+				print (e);
+				// no animations
+			}
+		}
+		
 		public void ChangePage ( PageName pageName ){
 			print ("ChangePage" + pageName.ToString ());
 
@@ -36,13 +55,7 @@ namespace Model
 				if (currentPage.name != pageName.ToString()) {
 					//close current page and new page
 
-					print (currentPage.name + "Close");
-					try{
-						currentPage.GetComponent<Animator>().Play( currentPage.name + "Close" );
-					}catch( InvalidCastException e ){
-						Destroy (currentPage.gameObject);
-						print (e);
-					}
+					ClosePage (currentPage);
 					newPage = pageFactory( pageName );
 				} else {
 					//same page, do nothing!
@@ -60,14 +73,17 @@ namespace Model
 
 		public void OpenPopup( PageName pageName ){
 			GameObject popup = pageFactory (pageName);
+			popup.name = pageName.ToString();
+			popup.transform.parent = this.transform;
 			popups.Add (popup);
 		}
 
 		public void ClosePopup( PageName pageName ){
-			GameObject popup = popups [popups.Count - 1];
-			popups.Remove (popup);
-
-			Destroy (popup);
+			if (popups.Count > 0) {
+				GameObject popup = popups [popups.Count - 1];
+				popups.Remove (popup);
+				ClosePage (popup);
+			}
 		}
 
 		GameObject pageFactory( PageName pageName ){

@@ -8,8 +8,8 @@ public class GamePlayUI : MonoBehaviour, ITagManagerListener {
 	public GameObject bloodbarPrefab;
 	public Vector3 offset;
 
-	List<GameObject> bs = new List<GameObject>();
-	List<GameObject> vs = new List<GameObject> ();
+	List<GameObject> bloodbars = new List<GameObject>();
+	List<GameObject> gameobjects = new List<GameObject> ();
 
 	// Use this for initialization
 	void Start () {
@@ -22,24 +22,28 @@ public class GamePlayUI : MonoBehaviour, ITagManagerListener {
 	
 	// Update is called once per frame
 	void Update () {
-		for (int i = 0; i < bs.Count; ++i) {
-			float hp = bs[i].GetComponent<Player> ().HP;
+		for (int i = 0; i < bloodbars.Count; ++i) {
+			float hp = bloodbars[i].GetComponent<Player> ().HP;
 			float maxhp = 100;
 			float per = hp / maxhp;
 
-			vs [i].transform.position = bs [i].GetComponent<Player> ().body.transform.position + offset;
-			vs [i].transform.FindChild ("blood").transform.localScale = new Vector3 (per, 1, 1);
+			gameobjects [i].transform.localPosition = bloodbars [i].GetComponent<Player> ().body.transform.position + offset;
+			gameobjects [i].transform.FindChild ("blood").transform.localScale = new Vector3 (per, 1, 1);
 		}
 	}
 
 	public void OnManage(ITagObject obj){
-		//Debug.Log (obj.Tag + ":" + obj.SeqID+":create");
-
+		
 		if (obj.Tag == "enemy" || obj.Tag == "player") {
 			Player p = obj.Belong.GetComponent<Player> ();
-			bs.Add (obj.Belong);
+			bloodbars.Add (obj.Belong);
 
-			vs.Add (Instantiate (bloodbarPrefab, p.body.transform.position, new Quaternion()) as GameObject);
+			GameObject bloodbar = Instantiate (bloodbarPrefab, p.body.transform.position, new Quaternion ()) as GameObject;
+			bloodbar.transform.parent = this.transform;
+			Vector3 np = bloodbar.transform.localPosition;
+			np.z = 0;
+			bloodbar.transform.localPosition = np;
+			gameobjects.Add ( bloodbar );
 		}
 	}
 
@@ -48,11 +52,11 @@ public class GamePlayUI : MonoBehaviour, ITagManagerListener {
 
 		if (obj.Tag == "enemy" || obj.Tag == "player") {
 
-			int removeId = bs.IndexOf (obj.Belong);
-			bs.Remove (obj.Belong);
+			int removeId = bloodbars.IndexOf (obj.Belong);
+			bloodbars.Remove (obj.Belong);
 
-			Destroy (vs [removeId]);
-			vs.RemoveAt (removeId);
+			Destroy (gameobjects [removeId]);
+			gameobjects.RemoveAt (removeId);
 		}
 	}
 }
