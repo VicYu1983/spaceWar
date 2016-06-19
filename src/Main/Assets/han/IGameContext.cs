@@ -10,5 +10,6 @@ namespace Model
 		ITagManager TagManager { get; }
 		IObjectFactory ObjectFactory{ get; }
 		IEventManager EventManager { get; }
+		IGame Game{ get; }
 	}
 }
