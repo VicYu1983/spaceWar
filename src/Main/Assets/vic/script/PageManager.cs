@@ -14,7 +14,7 @@ namespace Model
 		public GameObject endPanelPrefab;
 
 		GameObject currentPage;
-		List<GameObject> popups;
+		List<GameObject> popups = new List<GameObject>();
 
 		// Use this for initialization
 		void Start ()

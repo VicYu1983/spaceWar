@@ -21,12 +21,11 @@ namespace Model
 			GameContext.single.EventManager.Remove(this);
 		}
 		void Update(){
-			if (State != GameState.Play) {
-				return;
-			}
-			var enemies = GameContext.single.TagManager.FindObjectsWithTag ("enemy");
-			if (enemies.Count() == 0) {
-				State = GameState.Win;
+			if (State == GameState.Play) {
+				var enemies = GameContext.single.TagManager.FindObjectsWithTag ("enemy");
+				if (enemies.Count() == 0) {
+					State = GameState.Win;
+				}
 			}
 		}
 		public void OnAddReceiver(object receiver){
@@ -45,14 +44,10 @@ namespace Model
 			get { return state; } 
 			set{
 				if (state != value) {
-					print ("XXXXXXXXX:" + state + ":" + value);
 					foreach (var obj in proxy.Receivers) {
 						(obj as IGameListener).OnGameStateChange (state, value);
 					}
 					state = value;
-					print ("FFFFFFF:" + state + ":" + value);
-				} else {
-					print ("SSSS");
 				}
 			}
 		}
