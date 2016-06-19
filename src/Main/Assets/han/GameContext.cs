@@ -20,6 +20,9 @@ namespace Model
 		public MonoBehaviour objectFactory;
 		public IObjectFactory ObjectFactory{ get{ return objectFactory as IObjectFactory; } }
 
+		public MonoBehaviour game;
+		public IGame Game{ get{ return game as IGame; } }
+
 		void Awake(){
 			single = this;
 		}

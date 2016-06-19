@@ -45,6 +45,15 @@ namespace Model
 			body.GetComponent<Rigidbody2D> ().AddTorque (force);
 		}
 
+		public void MoveTo(Vector3 pos){
+			var heading = body.transform.eulerAngles.z*Mathf.PI/180 - 2*Mathf.PI;
+			var targetDir = pos - body.transform.position;
+			var target = Mathf.Atan2 (-targetDir.x, targetDir.y);
+			var bearing = target - heading;
+			Rotate (bearing*1000);
+			Forward (10000);
+		}
+
 		public void Shoot(){
 			var bullet = GameContext.single.ObjectFactory.CreateObject (ObjectType.Bullet);
 			bullet.GetComponent<Bullet> ().body.transform.localPosition = body.transform.position + new Vector3 ((float)Math.Sin(body.transform.eulerAngles.z*3.14/180)*-3, (float)Math.Cos(body.transform.eulerAngles.z*3.14/180)*3);
