@@ -5,11 +5,20 @@ using Model;
 
 namespace View
 {
-	public class PageController: MonoBehaviour, IBasicPageListener
+	public class PageController: MonoBehaviour, IBasicPageListener, IGameListener
 	{
 		public PageController ()
 		{
 			
+		}
+
+		public void OnGameStateChange(GameState old, GameState newstate){
+			print ("OnGameStateChange: " + newstate);
+			switch (newstate) {
+			case GameState.Win:
+				GameContext.single.PageManager.OpenPopup (PageName.EndPanel);
+				break;
+			}
 		}
 
 		public void OnClick( PageName pageName, string btnName ){

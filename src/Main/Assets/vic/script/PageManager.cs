@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using View;
 
@@ -10,9 +11,10 @@ namespace Model
 
 		public GameObject startPrefab;
 		public GameObject gameplayPrefab;
+		public GameObject endPanelPrefab;
 
 		GameObject currentPage;
-		GameObject[] popups;
+		List<GameObject> popups;
 
 		// Use this for initialization
 		void Start ()
@@ -57,11 +59,15 @@ namespace Model
 		}
 
 		public void OpenPopup( PageName pageName ){
-
+			GameObject popup = pageFactory (pageName);
+			popups.Add (popup);
 		}
 
 		public void ClosePopup( PageName pageName ){
+			GameObject popup = popups [popups.Count - 1];
+			popups.Remove (popup);
 
+			Destroy (popup);
 		}
 
 		GameObject pageFactory( PageName pageName ){
@@ -70,6 +76,8 @@ namespace Model
 				return Instantiate (startPrefab);
 			case PageName.GameplayPage:
 				return Instantiate (gameplayPrefab);
+			case PageName.EndPanel:
+				return Instantiate (endPanelPrefab);
 			default:
 				return null;
 			}

@@ -21,12 +21,12 @@ namespace Model
 			GameContext.single.EventManager.Remove(this);
 		}
 		void Update(){
-			if (state != GameState.Play) {
+			if (State != GameState.Play) {
 				return;
 			}
 			var enemies = GameContext.single.TagManager.FindObjectsWithTag ("enemy");
 			if (enemies.Count() == 0) {
-				state = GameState.Win;
+				State = GameState.Win;
 			}
 		}
 		public void OnAddReceiver(object receiver){
@@ -45,10 +45,14 @@ namespace Model
 			get { return state; } 
 			set{
 				if (state != value) {
+					print ("XXXXXXXXX:" + state + ":" + value);
 					foreach (var obj in proxy.Receivers) {
 						(obj as IGameListener).OnGameStateChange (state, value);
 					}
 					state = value;
+					print ("FFFFFFF:" + state + ":" + value);
+				} else {
+					print ("SSSS");
 				}
 			}
 		}
@@ -63,7 +67,7 @@ namespace Model
 			foreach (var enemy in enemies) {
 				enemy.GetComponent<TagObject> ().Tag = "enemy";
 			}
-			state = GameState.Play;
+			State = GameState.Play;
 		}
 		public void DestroyGame(){
 			var players = 
@@ -78,7 +82,7 @@ namespace Model
 			foreach (var e in enemys) {
 				Destroy (e);
 			}
-			state = GameState.Pending;
+			State = GameState.Pending;
 		}
 		public void OnCollideEnter(Collision2D coll) {
 			if (State != GameState.Play) {
