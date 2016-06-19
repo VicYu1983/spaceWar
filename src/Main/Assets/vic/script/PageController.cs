@@ -27,6 +27,7 @@ namespace View
 			case PageName.IntroPage:
 				switch (btnName) {
 				case "btn_start":
+					//Open Animation include game start event!!!
 					GameContext.single.PageManager.ChangePage ( PageName.GameplayPage );
 					break;
 				}
@@ -34,6 +35,7 @@ namespace View
 			case PageName.EndPanel:
 				switch (btnName) {
 				case "btn_again":
+					//Open Animation include game start event!!!
 					GameContext.single.PageManager.PlayAnimation (PageName.GameplayPage.ToString () + "Open");
 					GameContext.single.PageManager.ClosePopup (PageName.EndPanel);
 					break;
