@@ -66,6 +66,11 @@ namespace Model
 						ctr.Rotate (-2000);
 					}
 					break;
+				case KeyCode.L:
+					{
+						ctr.MoveTo (new Vector3 (100, 100, 0));
+					}
+					break;
 				}
 			}
 

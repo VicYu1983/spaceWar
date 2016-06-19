@@ -36,7 +36,8 @@ namespace Model
 			KeyCode.LeftArrow, 
 			KeyCode.RightArrow,
 			KeyCode.F,
-			KeyCode.Space
+			KeyCode.Space,
+			KeyCode.L
 		};
 
 		void Update(){
