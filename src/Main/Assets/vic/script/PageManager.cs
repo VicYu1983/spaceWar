@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using View;
 
 namespace Model
@@ -34,7 +35,12 @@ namespace Model
 					//close current page and new page
 
 					print (currentPage.name + "Close");
-					currentPage.GetComponent<Animator>().Play( currentPage.name + "Close" );
+					try{
+						currentPage.GetComponent<Animator>().Play( currentPage.name + "Close" );
+					}catch( InvalidCastException e ){
+						Destroy (currentPage.gameObject);
+						print (e);
+					}
 					newPage = pageFactory( pageName );
 				} else {
 					//same page, do nothing!

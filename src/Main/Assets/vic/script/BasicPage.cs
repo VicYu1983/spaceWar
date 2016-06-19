@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Model;
+
 namespace View
 {
 	public class BasicPage: MonoBehaviour, IEventSenderVerifyProxyDelegate
@@ -32,14 +33,20 @@ namespace View
 
 			btns = transform.GetComponentsInChildren<Button> ();
 
+			Func<Button,UnityEngine.Events.UnityAction> delegateClick = delegate (Button target)  
+			{  
+				return delegate {
+					this.OnBtnClick( target.gameObject );
+				};
+			};  
+				
 			foreach (Button btn in btns) {
-				btn.onClick.AddListener (delegate() {
-					this.OnBtnClick (btn.gameObject);
-				});
+				btn.onClick.AddListener (delegateClick (btn));
 			}
 		}
 
 		void OnBtnClick( GameObject sender ){
+			print ("OnBtnClick: " + sender.name);
 			foreach (var obj in _sender.Receivers) {
 				(obj as IBasicPageListener).OnClick ((PageName)Enum.Parse( typeof( PageName ), this.name ), sender.name);
 			}
