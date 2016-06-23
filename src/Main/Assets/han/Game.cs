@@ -40,6 +40,7 @@ namespace Model
 		public int level=0;
 		public GameState state = GameState.Pending;
 		public int Level{ get{ return level; } }
+		public Vector2 Size{ get{ return new Vector2 (2, 2); } }
 		public GameState State{ 
 			get { return state; } 
 			set{

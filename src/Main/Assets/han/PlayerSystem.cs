@@ -22,7 +22,9 @@ namespace Model
 		}
 
 		public void OnUnManage(ITagObject obj){
-			players.Remove (obj);
+			if (obj.Tag == "player" && obj.Belong.GetComponent<Player> () != null) {
+				players.Remove (obj);
+			}
 		}
 
 		public void OnKeyDown(KeyCode code){
@@ -68,7 +70,7 @@ namespace Model
 					break;
 				case KeyCode.L:
 					{
-						ctr.MoveTo (new Vector3 (100, 100, 0));
+						ctr.MoveTo (new Vector3 (0, 0, 0));
 					}
 					break;
 				}
