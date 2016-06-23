@@ -9,7 +9,8 @@ namespace Model
 		Bullet,
 		Explode,
 		Explode2,
-		Explode3
+		Explode3,
+		ItemHeal
 	}
 }
 

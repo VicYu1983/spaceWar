@@ -17,6 +17,13 @@ namespace Model
 
 		public int HP{ get{ return hp; } }
 
+		public void AddHP(int v){
+			hp += v;
+			if (hp > 100) {
+				hp = 100;
+			}
+		}
+
 		public PlayerState State{ 
 			get{ 
 				if (hp <= 0) {
@@ -46,13 +53,15 @@ namespace Model
 			body.GetComponent<Rigidbody2D> ().AddTorque (force);
 		}
 
-		public void MoveTo(Vector3 pos){
+		public void MoveTo(Vector3 pos, float force){
 			var heading = Util.NormalizeAngle(body.transform.eulerAngles.z * Mathf.PI / 180);
 			var targetDir = pos - body.transform.position;
 			var target = Mathf.Atan2 (-targetDir.x, targetDir.y);
 			var bearing = Util.NormalizeAngle(target - heading);
 			Rotate (bearing*1000);
-			Forward (10000);
+
+			var dis = Mathf.Min(Vector2.Distance (pos, body.transform.position), 10);
+			Forward (force*dis/10.0f);
 		}
 
 		public bool Shoot(){
@@ -65,7 +74,7 @@ namespace Model
 			bullet.GetComponent<Bullet> ().body.transform.localRotation = body.transform.localRotation;
 			bullet.GetComponent<Bullet>().body.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (0,1000));
 
-			hot = 10;
+			hot = 1;
 			return true;
 		}
 

@@ -98,8 +98,19 @@ namespace Model
 					return;
 				}
 
+				if (obj1.GetComponent<Player> () != null) {
+					var p = obj1.GetComponent<Player> ();
+					if (obj2.GetComponent<TagObject> ().Tag == "itemHeal") {
+						Destroy (obj2);
+						p.AddHP (100);
+					}
+				}
+
 				if (obj1.GetComponent<TagObject> ().Tag == "enemy") {
 					var enemy = obj1.GetComponent<Player> ();
+
+
+
 					if (obj2.GetComponent<TagObject> ().Tag == "bullet") {
 						GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode3, new Vector3 (contact.point.x, contact.point.y));
 

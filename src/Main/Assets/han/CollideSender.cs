@@ -36,6 +36,10 @@ namespace Model
 				(g as ICollideSenderListener).OnCollideEnter (coll);
 			}
 		}
+
+		void OnTriggerEnter2D(Collider2D coll){
+			
+		}
 	}
 }
 

@@ -30,12 +30,15 @@ namespace Model
 				// search enemy
 				if( fv == searchAction ){
 					if( fuzzy.Target != null ){
-						enemy.MoveTo(fuzzy.Target.transform.position);
+						enemy.MoveTo(fuzzy.Target.transform.position, 10000);
 					}
 				} else if( fv == fireAction ){
 					
 				} else if( fv == searchHeal ){
-					
+					var item = GameContext.single.TagManager.FindObjectsWithComponent<Item>().FirstOrDefault();
+					if( item != null ){
+						enemy.MoveTo(item.Belong.transform.position, 10000);
+					}
 				}
 
 				if( Fire(enemy.gameObject)() > 0.5 ){
@@ -69,12 +72,23 @@ namespace Model
 		}
 
 		static FuzzyValue SearchHeal(GameObject obj){
-			return FuzzyNot (FuzzyHP (obj));
+			return FuzzyAnd(HasItemHeal(), FuzzyNot (FuzzyHP (obj)));
 		}
 
 		static FuzzyValue FuzzyNot(FuzzyValue v){
 			return () => {
 				return 1.0f-v();
+			};
+		}
+
+		static FuzzyValue HasItemHeal(){
+			return ()=>{
+				var item = GameContext.single.TagManager.FindObjectsWithComponent<Item>().FirstOrDefault();
+				if( item != null ){
+					return 1;
+				} else {
+					return 0;
+				}
 			};
 		}
 
