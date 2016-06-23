@@ -8,7 +8,7 @@ namespace Model
 	public class FuzzySystem : MonoBehaviour, ITagManagerListener
 	{
 		List<GameObject> objs = new List<GameObject> ();
-		int searchAction, fireAction;
+		int searchAction, fireAction, searchHeal;
 
 		void Start (){
 			GameContext.single.EventManager.Add(this);
@@ -32,9 +32,13 @@ namespace Model
 					if( fuzzy.Target != null ){
 						enemy.MoveTo(fuzzy.Target.transform.position);
 					}
+				} else if( fv == fireAction ){
+					
+				} else if( fv == searchHeal ){
+					
 				}
 
-				if( fv == fireAction ){
+				if( Fire(enemy.gameObject)() > 0.5 ){
 					enemy.Shoot();
 				}
 			});
@@ -46,6 +50,7 @@ namespace Model
 				Fuzzy fuzzy = obj.Belong.GetComponent<Fuzzy> ();
 				searchAction = fuzzy.AddFuzzyValue (SearchEnemey(obj.Belong));
 				fireAction = fuzzy.AddFuzzyValue (Fire (obj.Belong));
+				searchHeal = fuzzy.AddFuzzyValue (SearchHeal (obj.Belong));
 			}
 		}
 
@@ -61,6 +66,10 @@ namespace Model
 
 		static FuzzyValue Fire(GameObject obj){
 			return FuzzyNot (Distance (obj));
+		}
+
+		static FuzzyValue SearchHeal(GameObject obj){
+			return FuzzyNot (FuzzyHP (obj));
 		}
 
 		static FuzzyValue FuzzyNot(FuzzyValue v){
