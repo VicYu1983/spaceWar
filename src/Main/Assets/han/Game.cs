@@ -90,6 +90,12 @@ namespace Model
 			}
 			if (coll.contacts.Length > 0) {
 				var contact = coll.contacts [0];
+				if (coll.contacts [0].collider.GetComponent<CollideSender> () == null) {
+					return;
+				}
+				if (coll.contacts [0].otherCollider.GetComponent<CollideSender> () == null) {
+					return;
+				}
 				var obj1 = coll.contacts [0].collider.GetComponent<CollideSender> ().Belong;
 				var obj2 = coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong;
 
@@ -108,8 +114,6 @@ namespace Model
 
 				if (obj1.GetComponent<TagObject> ().Tag == "enemy") {
 					var enemy = obj1.GetComponent<Player> ();
-
-
 
 					if (obj2.GetComponent<TagObject> ().Tag == "bullet") {
 						GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode3, new Vector3 (contact.point.x, contact.point.y));
