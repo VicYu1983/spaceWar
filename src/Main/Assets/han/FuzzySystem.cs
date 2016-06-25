@@ -7,8 +7,9 @@ namespace Model
 {
 	public class FuzzySystem : MonoBehaviour, ITagManagerListener
 	{
+		System.Random random = new System.Random ();
 		List<GameObject> objs = new List<GameObject> ();
-		int searchAction, fireAction, searchHeal;
+		int searchAction, fireAction, searchHeal, backAction;
 
 		void Start (){
 			GameContext.single.EventManager.Add(this);
@@ -30,14 +31,22 @@ namespace Model
 				// search enemy
 				if( fv == searchAction ){
 					if( fuzzy.Target != null ){
-						enemy.MoveTo(fuzzy.Target.transform.position, 10000);
+						enemy.MoveTo(fuzzy.Target.transform.position, 10000, 2000);
+					}
+					if( random.NextDouble()<0.01 ){
+						enemy.Dir = enemy.Dir == 1 ? -1 : 1;
 					}
 				} else if( fv == fireAction ){
-					
+					enemy.RotateTo(fuzzy.Target.transform.position, 2000);
 				} else if( fv == searchHeal ){
 					var item = GameContext.single.TagManager.FindObjectsWithComponent<Item>().FirstOrDefault();
 					if( item != null ){
-						enemy.MoveTo(item.Belong.transform.position, 10000);
+						enemy.MoveTo(item.Belong.transform.position, 10000, 2000);
+					}
+				} else if( fv == backAction ){
+					if( fuzzy.Target != null ){
+						enemy.Dir = -1;
+						enemy.MoveTo(fuzzy.Target.transform.position, 10000, 2000);
 					}
 				}
 
@@ -54,6 +63,7 @@ namespace Model
 				searchAction = fuzzy.AddFuzzyValue (SearchEnemey(obj.Belong));
 				fireAction = fuzzy.AddFuzzyValue (Fire (obj.Belong));
 				searchHeal = fuzzy.AddFuzzyValue (SearchHeal (obj.Belong));
+				backAction = fuzzy.AddFuzzyValue (Back (obj.Belong));
 			}
 		}
 
@@ -68,7 +78,11 @@ namespace Model
 		}
 
 		static FuzzyValue Fire(GameObject obj){
-			return FuzzyNot (Distance (obj));
+			return FuzzyNot (Distance (obj, 7, 20));
+		}
+
+		static FuzzyValue Back(GameObject obj){
+			return FuzzyAnd(FuzzyNot(HasItemHeal()), FuzzyNot (FuzzyHP (obj)));
 		}
 
 		static FuzzyValue SearchHeal(GameObject obj){
@@ -110,19 +124,19 @@ namespace Model
 			};
 		}
 
-		static FuzzyValue Distance(GameObject obj){
+		static FuzzyValue Distance(GameObject obj, float near, float far){
 			return () => {
 				var fz = obj.GetComponent<Fuzzy>();
 				if( fz.Target == null ){
 					return 1;
 				}
 				var dist = Vector2.Distance(fz.Target.transform.position, obj.GetComponent<Player>().body.transform.position);
-				if( dist > 8 ){
+				if( dist > far ){
 					return 1;
-				}else if(dist < 3){
+				}else if(dist < near){
 					return 0;
 				}else{
-					return (dist-3)/5.0f;
+					return (dist-near)/(far-near);
 				}
 			};
 		}

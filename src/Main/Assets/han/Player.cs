@@ -10,10 +10,17 @@ namespace Model
 
 	public class Player : MonoBehaviour
 	{
+		public float addHotByShoot = 6;
 		public GameObject body;
 		public GameObject shield;
 		public int hp = 100;
 		public float hot = 0;
+		public int dir = 1;
+
+		public int Dir{
+			get { return dir; }
+			set { dir = value; }
+		}
 
 		public int HP{ get{ return hp; } }
 
@@ -46,20 +53,23 @@ namespace Model
 		}
 
 		public void Forward(float force){
-			body.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (0, force));
+			body.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (0, dir* force));
 		}
 
 		public void Rotate(float force){
-			body.GetComponent<Rigidbody2D> ().AddTorque (force);
+			body.GetComponent<Rigidbody2D> ().AddTorque (dir* force);
 		}
 
-		public void MoveTo(Vector3 pos, float force){
+		public void RotateTo(Vector3 pos, float rotForce){
 			var heading = Util.NormalizeAngle(body.transform.eulerAngles.z * Mathf.PI / 180);
 			var targetDir = pos - body.transform.position;
 			var target = Mathf.Atan2 (-targetDir.x, targetDir.y);
 			var bearing = Util.NormalizeAngle(target - heading);
-			Rotate (bearing*1000);
+			Rotate (dir* bearing*rotForce);
+		}
 
+		public void MoveTo(Vector3 pos, float force, float rotForce){
+			RotateTo (pos, rotForce);
 			var dis = Mathf.Min(Vector2.Distance (pos, body.transform.position), 10);
 			Forward (force*dis/10.0f);
 		}
@@ -74,7 +84,7 @@ namespace Model
 			bullet.GetComponent<Bullet> ().body.transform.localRotation = body.transform.localRotation;
 			bullet.GetComponent<Bullet>().body.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (0,1000));
 
-			hot = 1;
+			hot += addHotByShoot;
 			return true;
 		}
 

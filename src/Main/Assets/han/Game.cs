@@ -8,6 +8,7 @@ namespace Model
 	public class Game : MonoBehaviour, IGame, ICollideSenderListener, IEventSenderVerifyProxyDelegate
 	{
 		EventSenderVerifyProxy proxy;
+		System.Random random = new System.Random ();
 		void Awake(){
 			proxy = new EventSenderVerifyProxy (this);
 		}
@@ -22,6 +23,12 @@ namespace Model
 		}
 		void Update(){
 			if (State == GameState.Play) {
+				var player = GameContext.single.TagManager.FindObjectsWithTag ("player").FirstOrDefault ();
+				if (player == null) {
+					State = GameState.Lose;
+					return;
+				}
+
 				var enemies = GameContext.single.TagManager.FindObjectsWithTag ("enemy");
 				if (enemies.Count() == 0) {
 					State = GameState.Win;
@@ -64,6 +71,7 @@ namespace Model
 				from idx in Enumerable.Range(0, 2) 
 				select GameContext.single.ObjectFactory.CreateObject (ObjectType.Enemy);
 			foreach (var enemy in enemies) {
+				enemy.GetComponent<Player> ().body.transform.localPosition = new Vector3 ((float)random.NextDouble()*10, (float)random.NextDouble()*10, 0);
 				enemy.GetComponent<TagObject> ().Tag = "enemy";
 			}
 			yield return 0;
@@ -96,13 +104,12 @@ namespace Model
 				if (coll.contacts [0].otherCollider.GetComponent<CollideSender> () == null) {
 					return;
 				}
-				var obj1 = coll.contacts [0].collider.GetComponent<CollideSender> ().Belong;
-				var obj2 = coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong;
-
 				if (coll.contacts [0].collider.gameObject.name == "shield") {
 					GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode2, new Vector3 (contact.point.x, contact.point.y));
 					return;
 				}
+				var obj1 = coll.contacts [0].collider.GetComponent<CollideSender> ().Belong;
+				var obj2 = coll.contacts [0].otherCollider.GetComponent<CollideSender> ().Belong;
 
 				if (obj1.GetComponent<Player> () != null) {
 					var p = obj1.GetComponent<Player> ();
@@ -110,21 +117,17 @@ namespace Model
 						Destroy (obj2);
 						p.AddHP (100);
 					}
-				}
-
-				if (obj1.GetComponent<TagObject> ().Tag == "enemy") {
-					var enemy = obj1.GetComponent<Player> ();
 
 					if (obj2.GetComponent<TagObject> ().Tag == "bullet") {
 						GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode3, new Vector3 (contact.point.x, contact.point.y));
 
 						var bullet = obj2.GetComponent<Bullet> ();
-						enemy.Damage (bullet.Power);
+						p.Damage (bullet.Power);
 
 						Destroy (bullet.gameObject);
-						if ( enemy.State == PlayerState.Destroy) {
+						if ( p.State == PlayerState.Destroy) {
 							GameContext.single.ObjectFactory.CreateObject (ObjectType.Explode, new Vector3 (contact.point.x, contact.point.y));
-							Destroy (enemy.gameObject);
+							Destroy (p.gameObject);
 						}
 					}
 				}

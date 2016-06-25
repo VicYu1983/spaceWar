@@ -70,7 +70,7 @@ namespace Model
 					break;
 				case KeyCode.L:
 					{
-						ctr.MoveTo (new Vector3 (0, 0, 0), 10000);
+						ctr.MoveTo (new Vector3 (0, 0, 0), 10000, 2000);
 					}
 					break;
 				}
