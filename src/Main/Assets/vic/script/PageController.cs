@@ -13,16 +13,19 @@ namespace View
 		}
 
 		public void OnGameStateChange(GameState old, GameState newstate){
-			print ("OnGameStateChange: " + newstate);
+			//print ("OnGameStateChange: " + newstate);
 			switch (newstate) {
 			case GameState.Win:
+				GameContext.single.PageManager.OpenPopup (PageName.EndPanel);
+				break;
+			case GameState.Lose:
 				GameContext.single.PageManager.OpenPopup (PageName.EndPanel);
 				break;
 			}
 		}
 
 		public void OnClick( PageName pageName, string btnName ){
-			print (pageName + ":" + btnName);
+			//print (pageName + ":" + btnName);
 			switch (pageName) {
 			case PageName.IntroPage:
 				switch (btnName) {
