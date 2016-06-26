@@ -8,30 +8,24 @@ namespace ProjectV.Model
 {
 	public class Alg
 	{
-		public static void CheckPath(Board board, List<Vector2> path, out PieceShape shape, out List<Vector2> finalpath){
+		public static void CheckPath(Board board, List<Vector2> path, out PieceShape shape, out List<Vector2> finalpath, out List<Vector2> finalneighbors){
 			
-
 			Nullable<Vector2> prev = null;
 			PieceShape prevShape = PieceShape.Unknown;
 			Vector2 curr;
-			IEnumerable<Vector2> neighbors = null;
+			List<Vector2> neighbors = new List<Vector2>();
 			List<Vector2> newpath = new List<Vector2> ();
 
 			foreach (Vector2 pos in path) {
-				if (prev == null) {
-					Piece prevPiece = board.Pieces [(int)pos.y][(int)pos.x];
-					prevShape = prevPiece.Shape;
-					prev = pos;
-					//neighbors = 
-				//		from ns in PosNeighbors (board.Size, pos)
-				//		select ;
-					newpath.Add (pos);
+				if (isValidPos (board.Size, pos) == false) {
+					break;
 				}
+
 				if (prev.HasValue) {
 					curr = pos;
 
-					Piece prevPiece = board.Pieces [(int)prev.Value.y][(int)prev.Value.x];
-					Piece currPiece = board.Pieces [(int)curr.y][(int)curr.x];
+					Piece prevPiece = board.GetPiece (prev.Value);
+					Piece currPiece = board.GetPiece (curr);
 
 					if (CanEat (prevShape, prevPiece, currPiece)) {
 						var currShape = Transition (prevPiece.Shape, currPiece.Shape);
@@ -43,13 +37,26 @@ namespace ProjectV.Model
 						}
 					}
 					prev = curr;
+
+				} else {
+					Piece prevPiece = board.GetPiece (pos);
+					prevShape = prevPiece.Shape;
+					prev = pos;
+					newpath.Add (pos);
+				}
+
+				neighbors.Clear ();
+				foreach (var ns in PosNeighbors(board.Size, pos)) {
+					var nextPiece = board.GetPiece (ns);
+					if (CanEat (prevShape, board.GetPiece(pos), nextPiece)) {
+						neighbors.Add (ns);
+					}
 				}
 			}
 
-
-
-			shape = PieceShape.Circle;
-			finalpath = null;
+			shape = prevShape;
+			finalpath = newpath;
+			finalneighbors = neighbors;
 		}
 
 		public static bool CanEat(PieceShape currShape, Piece p1, Piece p2){
@@ -158,7 +165,7 @@ namespace ProjectV.Model
 			return 
 				from p in new Vector2[]{up, right1, right2, down, left2, left1}
 				where isValidPos(size, p)
-			select p;
+				select p;
 		}
 	}
 }

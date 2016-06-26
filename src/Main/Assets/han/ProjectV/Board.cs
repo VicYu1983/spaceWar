@@ -15,7 +15,14 @@ namespace ProjectV.Model
 		}
 
 		public Vector2 Size {
-			get{ return new Vector2 (10, 10); }
+			get{ return new Vector2 (pieces[0].Length, pieces.Length); }
+		}
+
+		public Piece GetPiece(Vector2 pos){
+			if( Alg.isValidPos(Size, pos) ){
+				return Pieces [(int)pos.y] [(int)pos.x];
+			}
+			return null;
 		}
 	}
 }

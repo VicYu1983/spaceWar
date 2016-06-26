@@ -9,11 +9,40 @@ namespace ProjectV.Model
 	{
 		void Start(){
 			TestPiece ();
+			TestBoardGame ();
+		}
+
+		void TestBoardGame(){
+			Board board = new Board ();
+			board.Pieces = new Piece[][] {
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)},
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)},
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)}
+			};
+
+			PieceShape shape;
+			List<Vector2> path;
+			List<Vector2> neighbors;
+
+			Alg.CheckPath (
+				board,
+				new Vector2[]{ 
+					new Vector2(0,0), new Vector2(1,0)
+				}.ToList(),
+				out shape,
+				out path,
+				out neighbors
+			);
+
+			print (shape);
+			foreach (var pos in neighbors) {
+				print (pos);
+			}
 		}
 
 		void TestPiece(){
-			Board board = new Board ();
-			var pos = Alg.PosNeighbors (board.Size, new Vector2 (1, 0)).ToArray ();
+			var size = new Vector2 (10, 10);
+			var pos = Alg.PosNeighbors (size, new Vector2 (1, 0)).ToArray ();
 			if (!pos [0].Equals (new Vector2 (2, 0))) {
 				Debug.LogError ("X");
 			}
@@ -31,7 +60,7 @@ namespace ProjectV.Model
 			}
 
 
-			pos = Alg.PosNeighbors (board.Size, new Vector2 (2, 0)).ToArray ();
+			pos = Alg.PosNeighbors (size, new Vector2 (2, 0)).ToArray ();
 			if (!pos [0].Equals (new Vector2 (3, 0))) {
 				Debug.LogError ("X");
 			}
@@ -43,7 +72,7 @@ namespace ProjectV.Model
 			}
 
 
-			pos = Alg.PosNeighbors (board.Size, new Vector2 (1, 1)).ToArray ();
+			pos = Alg.PosNeighbors (size, new Vector2 (1, 1)).ToArray ();
 			if (!pos [0].Equals (new Vector2 (1, 0))) {
 				Debug.LogError ("X");
 			}
@@ -64,7 +93,7 @@ namespace ProjectV.Model
 			}
 
 			foreach (Vector2 p in pos) {
-				print (p);
+				//print (p);
 			}
 
 		}
