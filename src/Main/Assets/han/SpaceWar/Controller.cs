@@ -42,8 +42,8 @@ namespace SpaceWar.Model
 		public void OnUnManage(ITagObject obj){
 			
 		}
-		public void OnClick( PageName pageName, string btnName ){
-			if (pageName == PageName.EndPanel) {
+		public void OnClick( string pageName, string btnName ){
+			if (pageName == "EndPanel") {
 				if (btnName == "btn_again") {
 					GameContext.single.Game.StartGame (0);
 				} else if (btnName == "btn_exit") {
@@ -51,8 +51,8 @@ namespace SpaceWar.Model
 				}
 			}
 		}
-		public void OnAnimationTrigger( PageName pageName, string eventName ){
-			if (pageName == PageName.GameplayPage) {
+		public void OnAnimationTrigger( string pageName, string eventName ){
+			if (pageName == "GameplayPage") {
 				if (eventName == "GameStart") {
 					GameContext.single.Game.StartGame (0);
 				}
