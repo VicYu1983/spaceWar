@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using View;
+using Vic.Util;
 
-namespace SpaceWar.Model
+namespace Vic.Util
 {
 	public class PageManager : MonoBehaviour, IPageManager
 	{

@@ -2,8 +2,9 @@
 using System.Collections;
 using UniRx;
 using System.Linq;
-using View;
+using SpaceWar.View;
 using Han.Util;
+using Vic.Util;
 
 namespace SpaceWar.Model
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using View;
 using System.Linq;
 using Han.Util;
+using Vic.Util;
 
 namespace SpaceWar.Model
 {

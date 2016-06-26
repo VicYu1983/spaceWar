@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace View
+namespace Vic.Util
 {
 	public interface IPage
 	{

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using View;
 
-namespace SpaceWar.Model
+namespace Vic.Util
 {
 	public interface IPageManager
 	{

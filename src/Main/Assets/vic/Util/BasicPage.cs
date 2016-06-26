@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using SpaceWar.Model;
 using Han.Util;
 
-namespace View
+namespace Vic.Util
 {
 	public class BasicPage: MonoBehaviour, IEventSenderVerifyProxyDelegate
 	{
