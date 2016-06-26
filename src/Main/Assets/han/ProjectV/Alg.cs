@@ -50,9 +50,10 @@ namespace ProjectV.Model
 
 			if (prev.HasValue) {
 				neighbors.Clear ();
+				var prevPiece = board.GetPiece (prev.Value);
 				foreach (var ns in PosNeighbors(board.Size, prev.Value)) {
 					var nextPiece = board.GetPiece (ns);
-					if (CanEat (rule, prevShape, board.GetPiece(prev.Value), nextPiece)) {
+					if (CanEat (rule, prevShape, prevPiece, nextPiece)) {
 						neighbors.Add (ns);
 					}
 				}
