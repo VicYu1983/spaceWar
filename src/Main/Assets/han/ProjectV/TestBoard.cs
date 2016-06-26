@@ -15,8 +15,8 @@ namespace ProjectV.Model
 		void TestBoardGame(){
 			Board board = new Board ();
 			board.Pieces = new Piece[][] {
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)},
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)},
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Rect),new Piece(PieceShape.Circle)},
+				new Piece[]{new Piece(PieceShape.Triangle), new Piece(PieceShape.Triangle),new Piece(PieceShape.Circle)},
 				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)}
 			};
 
@@ -25,9 +25,14 @@ namespace ProjectV.Model
 			List<Vector2> neighbors;
 
 			Alg.CheckPath (
+				0,
 				board,
 				new Vector2[]{ 
-					new Vector2(0,0), new Vector2(1,0)
+					new Vector2(0,0), 
+					new Vector2(0,1), 
+					new Vector2(1,1),
+					new Vector2(1,0),
+					new Vector2(2,0)
 				}.ToList(),
 				out shape,
 				out path,
@@ -35,6 +40,12 @@ namespace ProjectV.Model
 			);
 
 			print (shape);
+			print ("path");
+			foreach (var pos in path) {
+				print (pos);
+			}
+
+			print ("neighbor");
 			foreach (var pos in neighbors) {
 				print (pos);
 			}

@@ -8,7 +8,7 @@ namespace ProjectV.Model
 {
 	public class Alg
 	{
-		public static void CheckPath(Board board, List<Vector2> path, out PieceShape shape, out List<Vector2> finalpath, out List<Vector2> finalneighbors){
+		public static void CheckPath(int rule, Board board, List<Vector2> path, out PieceShape shape, out List<Vector2> finalpath, out List<Vector2> finalneighbors){
 			
 			Nullable<Vector2> prev = null;
 			PieceShape prevShape = PieceShape.Unknown;
@@ -27,14 +27,16 @@ namespace ProjectV.Model
 					Piece prevPiece = board.GetPiece (prev.Value);
 					Piece currPiece = board.GetPiece (curr);
 
-					if (CanEat (prevShape, prevPiece, currPiece)) {
-						var currShape = Transition (prevPiece.Shape, currPiece.Shape);
+					if (CanEat (rule, prevShape, prevPiece, currPiece)) {
+						var currShape = Transition (rule, prevShape, currPiece.Shape);
 						if (currShape != PieceShape.Unknown) {
 							prevShape = currShape;
 							newpath.Add (curr);
 						} else {
 							break;
 						}
+					} else {
+						break;
 					}
 					prev = curr;
 
@@ -44,11 +46,13 @@ namespace ProjectV.Model
 					prev = pos;
 					newpath.Add (pos);
 				}
+			}
 
+			if (prev.HasValue) {
 				neighbors.Clear ();
-				foreach (var ns in PosNeighbors(board.Size, pos)) {
+				foreach (var ns in PosNeighbors(board.Size, prev.Value)) {
 					var nextPiece = board.GetPiece (ns);
-					if (CanEat (prevShape, board.GetPiece(pos), nextPiece)) {
+					if (CanEat (rule, prevShape, board.GetPiece(prev.Value), nextPiece)) {
 						neighbors.Add (ns);
 					}
 				}
@@ -59,15 +63,15 @@ namespace ProjectV.Model
 			finalneighbors = neighbors;
 		}
 
-		public static bool CanEat(PieceShape currShape, Piece p1, Piece p2){
-			PieceShape shape = Transition (currShape, p2.Shape);
+		public static bool CanEat(int rule, PieceShape currShape, Piece p1, Piece p2){
+			PieceShape shape = Transition (rule, currShape, p2.Shape);
 			if (shape == PieceShape.Unknown) {
 				return false;
 			}
 			return true;
 		}
 
-		public static PieceShape Transition(PieceShape s1, PieceShape s2){
+		public static PieceShape Transition(int rule, PieceShape s1, PieceShape s2){
 			if (s1 == PieceShape.Rect) {
 				switch (s2) {
 				case PieceShape.Rect:
@@ -95,7 +99,7 @@ namespace ProjectV.Model
 				case PieceShape.Triangle:
 					return PieceShape.RTriangle;
 				case PieceShape.Rect:
-					return PieceShape.Rect;
+					return PieceShape.Triangle;
 				default:
 					return PieceShape.Unknown;
 				}
@@ -105,6 +109,7 @@ namespace ProjectV.Model
 				switch (s2) {
 				case PieceShape.Rect:
 					return PieceShape.Rect;
+				case PieceShape.Circle:
 				case PieceShape.Triangle:
 					return PieceShape.RRect;
 				default:
@@ -114,6 +119,7 @@ namespace ProjectV.Model
 
 			if (s1 == PieceShape.RCircle) {
 				switch (s2) {
+				case PieceShape.Triangle:
 				case PieceShape.Rect:
 					return PieceShape.RCircle;
 				case PieceShape.Circle:
@@ -125,6 +131,7 @@ namespace ProjectV.Model
 
 			if (s1 == PieceShape.RTriangle) {
 				switch (s2) {
+				case PieceShape.Rect:
 				case PieceShape.Circle:
 					return PieceShape.RTriangle;
 				case PieceShape.Triangle:
