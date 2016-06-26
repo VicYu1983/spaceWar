@@ -12,6 +12,9 @@ namespace ProjectV.Model
 			get{ return shape; }
 			set{ shape = value; }
 		}
+		public Piece(PieceShape shape){
+			this.shape = shape;
+		}
 	}
 }
 
