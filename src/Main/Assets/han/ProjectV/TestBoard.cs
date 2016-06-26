@@ -15,7 +15,7 @@ namespace ProjectV.Model
 		void TestBoardGame(){
 			Board board = new Board ();
 			board.Pieces = new Piece[][] {
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Rect),new Piece(PieceShape.Circle)},
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Rect)},
 				new Piece[]{new Piece(PieceShape.Triangle), new Piece(PieceShape.Triangle),new Piece(PieceShape.Circle)},
 				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)}
 			};
