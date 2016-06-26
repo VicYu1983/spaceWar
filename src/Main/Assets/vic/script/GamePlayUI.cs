@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Model;
+using SpaceWar.Model;
+using Han.Util;
 
 public class GamePlayUI : MonoBehaviour, ITagManagerListener {
 
@@ -13,11 +14,11 @@ public class GamePlayUI : MonoBehaviour, ITagManagerListener {
 
 	// Use this for initialization
 	void Start () {
-		GameContext.single.EventManager.Add (this);
+		EventManager.Singleton.Add (this);
 	}
 
 	void OnDestroy(){
-		GameContext.single.EventManager.Remove (this);
+		EventManager.Singleton.Remove (this);
 	}
 	
 	// Update is called once per frame
@@ -31,6 +32,8 @@ public class GamePlayUI : MonoBehaviour, ITagManagerListener {
 			gameobjects [i].transform.FindChild ("blood").transform.localScale = new Vector3 (per, 1, 1);
 		}
 	}
+	ITagManager tagmgr;
+	public ITagManager TagManager{set{ tagmgr = value; }}
 
 	public void OnManage(ITagObject obj){
 		

@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using View;
-using Model;
+using SpaceWar.Model;
+using Han.Util;
 
-namespace View
+namespace SpaceWar.View
 {
 	public class PageController: MonoBehaviour, IBasicPageListener, IGameListener
 	{
@@ -56,12 +57,12 @@ namespace View
 		}
 		
 		void Start () {
-			GameContext.single.EventManager.Add (this);
+			EventManager.Singleton.Add (this);
 			GameContext.single.PageManager.ChangePage ( PageName.IntroPage );
 		}
 
 		void OnDestroy(){
-			GameContext.single.EventManager.Remove (this);
+			EventManager.Singleton.Remove (this);
 		}
 	}
 }

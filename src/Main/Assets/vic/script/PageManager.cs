@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using View;
 
-namespace Model
+namespace SpaceWar.Model
 {
 	public class PageManager : MonoBehaviour, IPageManager
 	{

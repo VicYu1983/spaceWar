@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using Model;
+using SpaceWar.Model;
+using Han.Util;
 
 namespace View
 {
@@ -29,7 +30,7 @@ namespace View
 
 		void Start ()
 		{
-			GameContext.single.EventManager.Add(_sender);
+			EventManager.Singleton.Add(_sender);
 
 			btns = transform.GetComponentsInChildren<Button> ();
 
@@ -67,7 +68,7 @@ namespace View
 		}
 
 		void OnDestroy(){
-			GameContext.single.EventManager.Remove(_sender);
+			EventManager.Singleton.Remove(_sender);
 
 			foreach (Button btn in btns) {
 				btn.onClick.RemoveAllListeners ();

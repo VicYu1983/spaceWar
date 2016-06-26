@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using View;
-namespace Model
+
+namespace SpaceWar.Model
 {
 	public interface IPageManager
 	{
