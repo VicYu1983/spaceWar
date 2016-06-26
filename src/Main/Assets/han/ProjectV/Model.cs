@@ -20,9 +20,9 @@ namespace ProjectV.Model
 		Board board = new Board();
 		public void StartGame (int level){
 			board.Pieces = new Piece[][] {
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Rect)},
-				new Piece[]{new Piece(PieceShape.Triangle), new Piece(PieceShape.Triangle),new Piece(PieceShape.Circle)},
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)}
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Rect),new Piece(PieceShape.Rect)},
+				new Piece[]{new Piece(PieceShape.Triangle), new Piece(PieceShape.Triangle),new Piece(PieceShape.Circle),new Piece(PieceShape.Rect)},
+				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle),new Piece(PieceShape.Rect)}
 			};
 			foreach (object obj in proxy.Receivers) {
 				(obj as IModelListener).OnGameStart ();
