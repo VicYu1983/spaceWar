@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using Han.Util;
+using System.Collections.Generic;
 
 namespace Han.Util
 {
 	public class KeyManager : MonoBehaviour, IEventSenderVerifyProxyDelegate
 	{
 		EventSenderVerifyProxy _sender;
+		public List<KeyCode> checkKeys = new List<KeyCode>();
 
 		public void OnAddReceiver(object receiver){
 			
@@ -30,16 +32,6 @@ namespace Han.Util
 		void OnDestroy(){
 			EventManager.Singleton.Remove(_sender);
 		}
-
-		KeyCode[] checkKeys = new KeyCode[]{
-			KeyCode.UpArrow, 
-			KeyCode.DownArrow, 
-			KeyCode.LeftArrow, 
-			KeyCode.RightArrow,
-			KeyCode.F,
-			KeyCode.Space,
-			KeyCode.L
-		};
 
 		void Update(){
 			foreach( KeyCode key in checkKeys){
