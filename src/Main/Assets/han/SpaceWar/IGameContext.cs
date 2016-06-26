@@ -2,6 +2,7 @@
 using System.Collections;
 using UniRx;
 using Han.Util;
+using Vic.Util;
 
 namespace SpaceWar.Model
 {

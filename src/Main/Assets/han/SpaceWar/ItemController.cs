@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using View;
 using System.Linq;
 using Han.Util;
+using Vic.Util;
 
 namespace SpaceWar.Model
 {
@@ -15,8 +15,8 @@ namespace SpaceWar.Model
 			EventManager.Singleton.Remove(this);
 		}
 
-		public void OnClick( PageName pageName, string btnName ){
-			if (pageName == PageName.EndPanel) {
+		public void OnClick( string pageName, string btnName ){
+			if (pageName == "EndPanel") {
 				if (btnName == "btn_again") {
 					var items = 
 						from obj in GameContext.single.TagManager.FindObjectsWithComponent<Item> ()
@@ -35,8 +35,8 @@ namespace SpaceWar.Model
 			}
 		}
 
-		public void OnAnimationTrigger( PageName pageName, string eventName ){
-			if (pageName == PageName.GameplayPage) {
+		public void OnAnimationTrigger( string pageName, string eventName ){
+			if (pageName == "GameplayPage") {
 				if (eventName == "GameStart") {
 					
 				}

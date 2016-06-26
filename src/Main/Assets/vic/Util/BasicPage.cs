@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using SpaceWar.Model;
 using Han.Util;
 
-namespace View
+namespace Vic.Util
 {
 	public class BasicPage: MonoBehaviour, IEventSenderVerifyProxyDelegate
 	{
@@ -47,21 +47,21 @@ namespace View
 		}
 
 		void OnBtnClick( GameObject sender ){
-			print ("OnBtnClick: " + sender.name);
+			//print ("OnBtnClick: " + sender.name);
 			foreach (var obj in _sender.Receivers) {
-				(obj as IBasicPageListener).OnClick ((PageName)Enum.Parse( typeof( PageName ), this.name ), sender.name);
+				(obj as IBasicPageListener).OnClick (this.name, sender.name);
 			}
 		}
 
 		public void OnAnimationTrigger( string name ){
-			print ("OnAnimationTrigger " + (PageName)Enum.Parse( typeof( PageName ), this.name ) + ": " + name);
+			//print ("OnAnimationTrigger " + (PageName)Enum.Parse( typeof( PageName ), this.name ) + ": " + name);
 			switch (name) {
 			case "End":
 				Destroy (this.gameObject);
 				break;
 			default:
 				foreach (var obj in _sender.Receivers) {
-					(obj as IBasicPageListener).OnAnimationTrigger ((PageName)Enum.Parse( typeof(PageName), this.name ), name);
+					(obj as IBasicPageListener).OnAnimationTrigger (this.name, name);
 				}
 				break;
 			}

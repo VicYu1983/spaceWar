@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using View;
+using Vic.Util;
 
-namespace SpaceWar.Model
+namespace Vic.Util
 {
 	public class PageManager : MonoBehaviour, IPageManager
 	{
@@ -47,7 +47,7 @@ namespace SpaceWar.Model
 			}
 		}
 		
-		public void ChangePage ( PageName pageName ){
+		public void ChangePage ( string pageName ){
 			print ("ChangePage" + pageName.ToString ());
 
 			GameObject newPage = null;
@@ -71,14 +71,14 @@ namespace SpaceWar.Model
 			}
 		}
 
-		public void OpenPopup( PageName pageName ){
+		public void OpenPopup( string pageName ){
 			GameObject popup = pageFactory (pageName);
 			popup.name = pageName.ToString();
 			popup.transform.parent = this.transform;
 			popups.Add (popup);
 		}
 
-		public void ClosePopup( PageName pageName ){
+		public void ClosePopup( string pageName ){
 			if (popups.Count > 0) {
 				GameObject popup = popups [popups.Count - 1];
 				popups.Remove (popup);
@@ -86,13 +86,13 @@ namespace SpaceWar.Model
 			}
 		}
 
-		GameObject pageFactory( PageName pageName ){
+		GameObject pageFactory( string pageName ){
 			switch (pageName) {
-			case PageName.IntroPage:
+			case "IntroPage":
 				return Instantiate (startPrefab);
-			case PageName.GameplayPage:
+			case "GameplayPage":
 				return Instantiate (gameplayPrefab);
-			case PageName.EndPanel:
+			case "EndPanel":
 				return Instantiate (endPanelPrefab);
 			default:
 				return null;
