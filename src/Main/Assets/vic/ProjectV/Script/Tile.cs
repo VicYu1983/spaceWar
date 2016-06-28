@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using TouchScript.Gestures;
 using Han.Util;
 using ProjectV.Model;
@@ -14,6 +15,8 @@ namespace ProjectV.View{
 		public GameObject mask;
 		public GameObject mesh;
 		public GameObject border;
+
+		public List<Texture> textures;
 
 		void Awake(){
 			proxy = new EventSenderVerifyProxy (this);
@@ -70,35 +73,41 @@ namespace ProjectV.View{
 			switch ( shape ) {
 			case PieceShape.Circle:
 				meshShape.GetComponent<TextMesh> ().text = "Cir";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (.5f, 0, 0);
+				mesh.GetComponent<MeshRenderer>().material.mainTexture = textures[0];
+				gameObject.active = true;
 				break;
 			case PieceShape.RCircle:
 				meshShape.GetComponent<TextMesh> ().text = "Cir_Inv";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (.5f, 0, 0);
+				mesh.GetComponent<MeshRenderer>().material.mainTexture = textures[1];
+				gameObject.active = true;
 				break;
 			case PieceShape.Rect:
 				meshShape.GetComponent<TextMesh> ().text = "Rect";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, .5f, 0);
+				mesh.GetComponent<MeshRenderer>().material.mainTexture = textures[2];
+				gameObject.active = true;
 				break;
 			case PieceShape.RRect:
 				meshShape.GetComponent<TextMesh> ().text = "Rect_Inv";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, .5f, 0);
+				mesh.GetComponent<MeshRenderer>().material.mainTexture = textures[3];
+				gameObject.active = true;
 				break;
 			case PieceShape.Triangle:
 				meshShape.GetComponent<TextMesh> ().text = "Tri";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, .5f);
+				mesh.GetComponent<MeshRenderer>().material.mainTexture = textures[4];
+				gameObject.active = true;
 				break;
 			case PieceShape.RTriangle:
 				meshShape.GetComponent<TextMesh> ().text = "Tri_Inv";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, .5f);
+				mesh.GetComponent<MeshRenderer>().material.mainTexture = textures[5];
+				gameObject.active = true;
 				break;
 			case PieceShape.Unknown:
 				meshShape.GetComponent<TextMesh> ().text = "No";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, 0);
+				gameObject.active = false;
 				break;
 			default:
 				meshShape.GetComponent<TextMesh> ().text = "No";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, 0);
+				gameObject.active = false;
 				break;
 			}
 		}

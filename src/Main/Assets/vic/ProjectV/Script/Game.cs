@@ -44,7 +44,7 @@ namespace ProjectV.View{
 			selfTile.name = "self";
 			selfTile.transform.parent = this.transform;
 			selfTile.transform.localPosition = new Vector3 (-7, 6);
-			selfTile.transform.localRotation = Quaternion.Euler (0, 0, 330);
+			selfTile.transform.localRotation = Quaternion.Euler (0, 0, 0);
 
 			selfTile.GetComponent<Tile> ().SetUsed (false);
 			selfTile.GetComponent<Tile> ().SetEnable (false);
@@ -63,7 +63,7 @@ namespace ProjectV.View{
 						offset = -height / 2;
 					}
 					tile.transform.localPosition = new Vector3 (width * i, 0, -height * j + offset);
-					tile.transform.localRotation = Quaternion.Euler (new Vector3 (90, 90, 60));
+					tile.transform.localRotation = Quaternion.Euler (new Vector3 (90, 0, 0));
 
 					tile.GetComponent<Tile>().SetShape( piece [j,i].Shape );
 					tile.GetComponent<Tile>().SetEnable( false );
