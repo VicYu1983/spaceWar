@@ -14,7 +14,7 @@ namespace ProjectV.Model
 	{
 		void StartGame (int level);
 		void DestroyGame();
-		Piece[][] Pieces{ get; }
+		Piece[,] Pieces{ get; }
 		CheckPathResult CheckPath(List<Vector2> path);
 	}
 }

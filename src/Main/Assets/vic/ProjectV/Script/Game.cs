@@ -8,11 +8,15 @@ using Han.Util;
 namespace ProjectV.View{
 	public class Game : MonoBehaviour, IModelListener, ITileListener {
 
-		public GameObject TilesContainer;
-		public GameObject TileMesh;
+		public GameObject tilesContainer;
+		public GameObject tileMesh;
+		public Vector2 tileSize;
+		public List<string> trackingCubes = new List<string> ();
 
 		bool isTrack = false;
-		public List<string> trackingCubes = new List<string> ();
+		Hashtable cubes = new Hashtable();
+		CheckPathResult resultPath;
+		GameObject selfTile;
 
 		IModel model;
 		public IModel Model {
@@ -20,10 +24,9 @@ namespace ProjectV.View{
 		}
 
 		public void OnGameStart(){
-			Piece[][] pieces = model.Pieces;
-			for (int i = 0; i < pieces.Length; ++i) {
-				CreateTiles (pieces [i], i);
-			}
+			Piece[,] pieces = model.Pieces;
+			CreateTiles (pieces);
+			CreateSelf ();
 		}
 
 		public void StartTouch(){
@@ -32,46 +35,44 @@ namespace ProjectV.View{
 
 		public void EndTouch(){
 			isTrack = false;
+			ResetTile ();
 			trackingCubes.Clear ();
 		}
 
-		void CreateTiles( Piece[] piece, int col ){
-			for (int i = 0; i < piece.Length; ++i) {
-				GameObject tile = Instantiate (TileMesh);
-				tile.transform.parent = TilesContainer.transform;
-				tile.name = i + "_" + col + "_tile";
-				float width = tile.GetComponent<MeshFilter> ().mesh.bounds.size.x;
-				float height = tile.GetComponent<MeshFilter> ().mesh.bounds.size.y;
-				float offset = 0;
-				if (i % 2 == 1) {
-					offset = -height / 2;
-				}
-				tile.transform.localPosition = new Vector3 (width * i, 0, -height * col + offset);
-				tile.transform.localRotation = Quaternion.Euler (new Vector3 (-90, 0, 30));
+		void CreateSelf(){
+			selfTile = Instantiate (tileMesh);
+			selfTile.name = "self";
+			selfTile.transform.parent = this.transform;
+			selfTile.transform.localPosition = new Vector3 (-7, 6);
+			selfTile.transform.localRotation = Quaternion.Euler (0, 0, 330);
 
-				tile.GetComponent<MeshRenderer> ().material.color = GetColorByShape (piece [i].Shape);
-			}
+			selfTile.GetComponent<Tile> ().SetUsed (false);
+			selfTile.GetComponent<Tile> ().SetEnable (false);
 		}
 
-		Color GetColorByShape( PieceShape shape ){
-			switch ( shape ) {
-			case PieceShape.Circle:
-				return new Color (1, 0, 0);
-			case PieceShape.RCircle:
-				return new Color (1, .3f, .3f);
-			case PieceShape.Rect:
-				return new Color (0, 1, 0);
-			case PieceShape.RRect:
-				return new Color (.3f, 1, .3f);
-			case PieceShape.Triangle:
-				return new Color (0, 0, 1);
-			case PieceShape.RTriangle:
-				return new Color (.3f, .3f, 1);
-			case PieceShape.Unknown:
-				return new Color (0, 0, 0);
-			default:
-				return new Color (0, 0, 0);
+		void CreateTiles( Piece[,] piece){
+			for (int j = 0; j < piece.GetLength(0); ++j) {
+				for (int i = 0; i < piece.GetLength(1); ++i) {
+					GameObject tile = Instantiate (tileMesh);
+					tile.transform.parent = tilesContainer.transform;
+					tile.name = i + "_" + j + "_tile";
+					float width = tileSize.x;
+					float height = tileSize.y;
+					float offset = 0;
+					if (i % 2 == 1) {
+						offset = -height / 2;
+					}
+					tile.transform.localPosition = new Vector3 (width * i, 0, -height * j + offset);
+					tile.transform.localRotation = Quaternion.Euler (new Vector3 (90, 90, 60));
+
+					tile.GetComponent<Tile>().SetShape( piece [j,i].Shape );
+					tile.GetComponent<Tile>().SetUsed( false );
+
+					//Cubes.Add (tile);
+					cubes.Add( tile.name, tile );
+				}
 			}
+
 		}
 
 		// Use this for initialization
@@ -85,18 +86,79 @@ namespace ProjectV.View{
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 				if (Physics.RaycastAll (ray).Length > 0) {
+					/*
 					if (AddToTrack (Physics.RaycastAll (ray) [0].transform.name)) {
-						UpdateTile( model.CheckPath (TrackToModel (trackingCubes)) );
+						resultPath = model.CheckPath (TrackToModel (trackingCubes));
+						UpdateTile ( resultPath );
+					} 
+*/
+
+					switch (AddToTrack (Physics.RaycastAll (ray) [0].transform.name)) {
+					case "new":
+						resultPath = model.CheckPath (TrackToModel (trackingCubes));
+						UpdateTile ( resultPath );
+						break;
+					case "back":
+						resultPath = model.CheckPath (TrackToModel (trackingCubes));
+						UpdateTile ( resultPath );
+						break;
+					case "none":
+						break;
+					default:
+						break;
 					}
 				}
 			}
 		}
 
-		void UpdateTile( CheckPathResult result ){
-			print (result.path.Count);
-			print (result.neighbors.Count);
+		void ResetTile(){
+			foreach (string name in cubes.Keys)
+			{
+				( cubes[name] as GameObject ).GetComponent<Tile> ().SetEnable (false);
+				( cubes[name] as GameObject ).GetComponent<Tile> ().SetUsed (false);
+			}
 		}
 
+		void UpdateTile( CheckPathResult result ){
+			
+			ResetTile ();
+
+			foreach (Vector2 pos in result.neighbors) {
+				GameObject tile = GetTileByPosition (pos);
+				tile.GetComponent<Tile> ().SetEnable (true);
+			}
+
+			foreach (Vector2 pos in result.path) {
+				GameObject tile = GetTileByPosition (pos);
+				tile.GetComponent<Tile> ().SetUsed (true);
+			}
+
+			selfTile.GetComponent<Tile> ().SetShape (result.shape);
+		}
+
+		GameObject GetTileByPosition( Vector2 pos ){
+			string name = pos.x + "_" + pos.y + "_tile";
+			return cubes [name] as GameObject;
+		}
+
+		string AddToTrack( string name ){
+			if (isTrack) {
+				int posid = trackingCubes.IndexOf (name);
+				if ( posid == -1) {
+					trackingCubes.Add (name);
+					return "new";
+				} else {
+					if (posid != trackingCubes.Count - 1) {
+						trackingCubes = trackingCubes.GetRange (0, posid );
+						return "back";
+					}
+					return "none";
+				}
+			}
+			return "none";
+		}
+
+		/*
 		bool AddToTrack( string name ){
 			if (isTrack) {
 				if (trackingCubes.IndexOf (name) == -1) {
@@ -106,7 +168,7 @@ namespace ProjectV.View{
 			}
 			return false;
 		}
-
+*/
 		List<Vector2> TrackToModel( List<string> tc ){
 			List<Vector2> retList = new List<Vector2> ();
 			foreach (string name in tc) {

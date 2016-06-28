@@ -110,7 +110,6 @@ namespace ProjectV.Model
 				switch (s2) {
 				case PieceShape.Rect:
 					return PieceShape.Rect;
-				case PieceShape.Circle:
 				case PieceShape.Triangle:
 					return PieceShape.RRect;
 				default:
@@ -120,7 +119,6 @@ namespace ProjectV.Model
 
 			if (s1 == PieceShape.RCircle) {
 				switch (s2) {
-				case PieceShape.Triangle:
 				case PieceShape.Rect:
 					return PieceShape.RCircle;
 				case PieceShape.Circle:
@@ -132,7 +130,6 @@ namespace ProjectV.Model
 
 			if (s1 == PieceShape.RTriangle) {
 				switch (s2) {
-				case PieceShape.Rect:
 				case PieceShape.Circle:
 					return PieceShape.RTriangle;
 				case PieceShape.Triangle:

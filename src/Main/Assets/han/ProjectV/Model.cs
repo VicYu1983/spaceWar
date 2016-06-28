@@ -8,6 +8,8 @@ namespace ProjectV.Model
 	public class Model : MonoBehaviour, IModel, IEventSenderVerifyProxyDelegate
 	{
 		EventSenderVerifyProxy proxy;
+		System.Random rand = new System.Random();
+
 		void Awake(){
 			proxy = new EventSenderVerifyProxy (this);
 			EventManager.Singleton.Add (proxy);
@@ -19,11 +21,38 @@ namespace ProjectV.Model
 		public int rule;
 		Board board = new Board();
 		public void StartGame (int level){
-			board.Pieces = new Piece[][] {
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Rect),new Piece(PieceShape.Rect)},
-				new Piece[]{new Piece(PieceShape.Triangle), new Piece(PieceShape.Triangle),new Piece(PieceShape.Circle),new Piece(PieceShape.Rect)},
-				new Piece[]{new Piece(PieceShape.Circle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle),new Piece(PieceShape.Rect)}
+			/*
+			board.Pieces = new Piece[,] {
+				{new Piece(PieceShape.Unknown), new Piece(PieceShape.Circle),new Piece(PieceShape.Unknown)},
+				{new Piece(PieceShape.Triangle), new Piece(PieceShape.Circle),new Piece(PieceShape.Circle)},
+				{new Piece(PieceShape.Rect), new Piece(PieceShape.Triangle),new Piece(PieceShape.Triangle)}
 			};
+			*/
+
+
+			board.Pieces = new Piece[6,6];
+			for (var i = 0; i < board.Pieces.GetLength(0); ++i) {
+				for (var j = 0; j < board.Pieces.GetLength(1); ++j) {
+					Piece piece = null;
+
+					var r = rand.Next (3);
+					switch (r) {
+					default:
+					case 0:
+						piece = new Piece (PieceShape.Circle);
+						break;
+					case 1:
+						piece = new Piece (PieceShape.Rect);
+						break;
+					case 2:
+						piece = new Piece (PieceShape.Triangle);
+						break;
+					}
+
+					board.Pieces [i,j] = piece;
+				}
+			}
+
 			foreach (object obj in proxy.Receivers) {
 				(obj as IModelListener).OnGameStart ();
 			}
@@ -31,7 +60,7 @@ namespace ProjectV.Model
 		public void DestroyGame(){
 			
 		}
-		public Piece[][] Pieces{ get { return board.Pieces; } }
+		public Piece[,] Pieces{ get { return board.Pieces; } }
 		public CheckPathResult CheckPath(List<Vector2> path){
 			CheckPathResult result = new CheckPathResult();
 			Alg.CheckPath (rule, board, path, out result.shape, out result.path, out result.neighbors);
