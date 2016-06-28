@@ -10,10 +10,10 @@ namespace ProjectV.View{
 		TransformGesture tg;
 		EventSenderVerifyProxy proxy;
 
-		public GameObject Shape;
-		public GameObject Enable;
+		public GameObject meshShape;
 		public GameObject mask;
 		public GameObject mesh;
+		public GameObject border;
 
 		void Awake(){
 			proxy = new EventSenderVerifyProxy (this);
@@ -60,44 +60,44 @@ namespace ProjectV.View{
 
 		public void SetEnable( bool enable ){
 			if (enable) {
-				Enable.GetComponent<TextMesh> ().text = "E";
+				border.SetActive (true);
 			} else {
-				Enable.GetComponent<TextMesh> ().text = "";
+				border.SetActive (false);
 			}
 		}
 
 		public void SetShape( PieceShape shape ){
 			switch ( shape ) {
 			case PieceShape.Circle:
-				Shape.GetComponent<TextMesh> ().text = "Cir";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (1, 0, 0);
+				meshShape.GetComponent<TextMesh> ().text = "Cir";
+				mesh.GetComponent<MeshRenderer> ().material.color = new Color (.5f, 0, 0);
 				break;
 			case PieceShape.RCircle:
-				Shape.GetComponent<TextMesh> ().text = "Cir_Inv";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (1, 0, 0);
+				meshShape.GetComponent<TextMesh> ().text = "Cir_Inv";
+				mesh.GetComponent<MeshRenderer> ().material.color = new Color (.5f, 0, 0);
 				break;
 			case PieceShape.Rect:
-				Shape.GetComponent<TextMesh> ().text = "Rect";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 1, 0);
+				meshShape.GetComponent<TextMesh> ().text = "Rect";
+				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, .5f, 0);
 				break;
 			case PieceShape.RRect:
-				Shape.GetComponent<TextMesh> ().text = "Rect_Inv";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 1, 0);
+				meshShape.GetComponent<TextMesh> ().text = "Rect_Inv";
+				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, .5f, 0);
 				break;
 			case PieceShape.Triangle:
-				Shape.GetComponent<TextMesh> ().text = "Tri";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, 1);
+				meshShape.GetComponent<TextMesh> ().text = "Tri";
+				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, .5f);
 				break;
 			case PieceShape.RTriangle:
-				Shape.GetComponent<TextMesh> ().text = "Tri_Inv";
-				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, 1);
+				meshShape.GetComponent<TextMesh> ().text = "Tri_Inv";
+				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, .5f);
 				break;
 			case PieceShape.Unknown:
-				Shape.GetComponent<TextMesh> ().text = "No";
+				meshShape.GetComponent<TextMesh> ().text = "No";
 				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, 0);
 				break;
 			default:
-				Shape.GetComponent<TextMesh> ().text = "No";
+				meshShape.GetComponent<TextMesh> ().text = "No";
 				mesh.GetComponent<MeshRenderer> ().material.color = new Color (0, 0, 0);
 				break;
 			}

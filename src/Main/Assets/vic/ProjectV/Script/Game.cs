@@ -66,6 +66,7 @@ namespace ProjectV.View{
 					tile.transform.localRotation = Quaternion.Euler (new Vector3 (90, 90, 60));
 
 					tile.GetComponent<Tile>().SetShape( piece [j,i].Shape );
+					tile.GetComponent<Tile>().SetEnable( false );
 					tile.GetComponent<Tile>().SetUsed( false );
 
 					//Cubes.Add (tile);
