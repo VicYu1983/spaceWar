@@ -28,13 +28,10 @@ namespace ProjectV.Model
 				{new Piece(PieceShape.Rect), new Piece(PieceShape.Triangle),new Piece(PieceShape.Triangle)}
 			};
 			*/
-
-
 			board.Pieces = new Piece[6,6];
 			for (var i = 0; i < board.Pieces.GetLength(0); ++i) {
 				for (var j = 0; j < board.Pieces.GetLength(1); ++j) {
 					Piece piece = null;
-
 					var r = rand.Next (3);
 					switch (r) {
 					default:
@@ -48,7 +45,6 @@ namespace ProjectV.Model
 						piece = new Piece (PieceShape.Triangle);
 						break;
 					}
-
 					board.Pieces [i,j] = piece;
 				}
 			}

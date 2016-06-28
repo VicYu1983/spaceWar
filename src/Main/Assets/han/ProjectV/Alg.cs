@@ -57,6 +57,11 @@ namespace ProjectV.Model
 						neighbors.Add (ns);
 					}
 				}
+				neighbors = neighbors.Where ((pos) => {
+					return !newpath.Exists((pos2)=>{
+						return pos.x == pos2.x && pos.y == pos2.y;
+					});
+				}).ToList();
 			}
 
 			shape = prevShape;
