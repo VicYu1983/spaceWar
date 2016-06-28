@@ -135,6 +135,7 @@ namespace ProjectV.View{
 			}
 
 			selfTile.GetComponent<Tile> ().SetShape (result.shape);
+			trackingCubes = ModelToTrack (result.path);
 		}
 
 		GameObject GetTileByPosition( Vector2 pos ){
@@ -175,6 +176,14 @@ namespace ProjectV.View{
 			foreach (string name in tc) {
 				string[] arystr = name.Split (new char[]{ '_' }, 3);
 				retList.Add (new Vector2 (Int32.Parse(arystr [0]), Int32.Parse( arystr [1] )));
+			}
+			return retList;
+		}
+
+		List<string> ModelToTrack( List<Vector2> tc ){
+			List<string> retList = new List<string> ();
+			foreach (Vector2 v in tc) {
+				retList.Add (v.x + "_" + v.y + "_tile");
 			}
 			return retList;
 		}
