@@ -7,6 +7,11 @@ namespace ProjectV.Model
 {
 	public class Model : MonoBehaviour, IModel, IEventSenderVerifyProxyDelegate
 	{
+		public bool randomPiece = false;
+		public int pieceWidth = 5, pieceHeight = 5;
+		public List<PieceShape> pieces;
+		public int rule;
+
 		EventSenderVerifyProxy proxy;
 		System.Random rand = new System.Random();
 
@@ -18,7 +23,7 @@ namespace ProjectV.Model
 			EventManager.Singleton.Remove (proxy);
 		}
 
-		public int rule;
+
 		Board board = new Board();
 		public void StartGame (int level){
 			/*
@@ -28,22 +33,27 @@ namespace ProjectV.Model
 				{new Piece(PieceShape.Rect), new Piece(PieceShape.Triangle),new Piece(PieceShape.Triangle)}
 			};
 			*/
-			board.Pieces = new Piece[6,6];
+			board.Pieces = new Piece[pieceHeight,pieceWidth];
 			for (var i = 0; i < board.Pieces.GetLength(0); ++i) {
 				for (var j = 0; j < board.Pieces.GetLength(1); ++j) {
 					Piece piece = null;
-					var r = rand.Next (3);
-					switch (r) {
-					default:
-					case 0:
-						piece = new Piece (PieceShape.Circle);
-						break;
-					case 1:
-						piece = new Piece (PieceShape.Rect);
-						break;
-					case 2:
-						piece = new Piece (PieceShape.Triangle);
-						break;
+					if (randomPiece) {
+						var r = rand.Next (3);
+						switch (r) {
+						default:
+						case 0:
+							piece = new Piece (PieceShape.Circle);
+							break;
+						case 1:
+							piece = new Piece (PieceShape.Rect);
+							break;
+						case 2:
+							piece = new Piece (PieceShape.Triangle);
+							break;
+						}
+					} else {
+						var idx = j + i * pieceWidth;
+						piece = new Piece(pieces [idx]);
 					}
 					board.Pieces [i,j] = piece;
 				}
