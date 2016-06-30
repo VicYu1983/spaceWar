@@ -57,6 +57,7 @@ namespace AIRace.Model
 					var p2 = layer.ps [j];
 					err += p2.W [i] *p2.Error;
 				}
+				err /= layer.ps.Count;
 				p.Learn (p.Output + err, learningRate);
 			}
 		}
