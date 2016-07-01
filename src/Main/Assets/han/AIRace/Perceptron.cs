@@ -45,7 +45,7 @@ namespace AIRace.Model
 				value += inputs [i] * ws [i];
 			}
 			value += 1 * ws [ws.Length - 1];
-			// output基本上要受到激發函數改成-1~1或0~1之間的值，不然，很容易在Learn方法算error時溢位(超過1)，權重就被越算越大
+			// output基本上要受到激發函數改成-1~1或0~1之間的值，不然，很容易在Learn方法算error時溢位(超過1)，權重就被越算越大(超過1)
 			output = Activate (value);
 		}
 
@@ -56,7 +56,7 @@ namespace AIRace.Model
 			}
 			ws[ws.Length-1] += learningRate* 1 * err;
 		}
-
+		/*
 		public void LearnWithError(float err, float learningRate=0.7f){
 			this.err = err;
 			for(var i=0; i<inputs.Length; ++i){
@@ -64,6 +64,7 @@ namespace AIRace.Model
 			}
 			ws[ws.Length-1] += learningRate* 1 * err;
 		}
+		*/
 	}
 }
 

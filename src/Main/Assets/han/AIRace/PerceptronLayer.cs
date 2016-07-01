@@ -68,6 +68,7 @@ namespace AIRace.Model
 				}
 				*/
 				p.Learn (target, learningRate);
+				//p.LearnWithError (err, learningRate);
 			}
 		}
 	}
