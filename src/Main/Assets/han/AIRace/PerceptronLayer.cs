@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace AIRace.Model
 {
@@ -57,8 +58,16 @@ namespace AIRace.Model
 					var p2 = layer.ps [j];
 					err += p2.W [i] *p2.Error;
 				}
-				p.Learn (p.Output + err, learningRate);
-				//p.LearnWithError (err, learningRate);
+				var target = p.Output + err;
+				/*
+				if (target > 1) {
+					target = 1;
+				}
+				if (target < -1) {
+					target = -1;
+				}
+				*/
+				p.Learn (target, learningRate);
 			}
 		}
 	}

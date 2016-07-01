@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AIRace.Model
 {
-	public class TestPerceptron : MonoBehaviour
+	public class TestMultiLayerPerceptron : MonoBehaviour
 	{
 		public List<Vector3> data;
 		public GameObject pixel;
@@ -13,11 +13,20 @@ namespace AIRace.Model
 		public float error;
 		public float errorsum;
 
-		Perceptron p = new Perceptron(Perceptron.Logistic, 2);
-
+		MultiLayerPerceptron p = new MultiLayerPerceptron (2);
 		GameObject[,] pixels = new GameObject[10, 10];
 
 		void Start(){
+			var layer = new PerceptronLayer (2);
+			layer.Add (new Perceptron (Perceptron.Logistic, 2));
+			layer.Add (new Perceptron (Perceptron.Logistic, 2));
+
+			var layer2 = new PerceptronLayer (2);
+			layer2.Add (new Perceptron (Perceptron.Logistic, 2));
+
+			p.Add (layer);
+			p.Add (layer2);
+
 			for (var i = 0; i < pixels.GetLength(0); ++i) {
 				for (var j = 0; j < pixels.GetLength(1); ++j) {
 					pixels [i, j] = Instantiate (pixel, new Vector3 (i, j, 0), new Quaternion()) as GameObject;
@@ -31,17 +40,26 @@ namespace AIRace.Model
 				foreach (Vector3 v in data) {
 					p.Input = new float[]{ v.x, v.y };
 					p.Feed ();
-					float output = p.Output;
-					p.Learn (v.z);
+					float output = p.Output[0];
+					p.Learn (new float[]{v.z});
 					this.output = output;
-					error = p.Error;
-					errorsum += error;
+					print (output);
 				}
 			}
 		}
 
 		void Update(){
 			
+			errorsum = 0;
+			foreach (Vector3 v in data) {
+				p.Input = new float[]{ v.x, v.y };
+				p.Feed ();
+				float output = p.Output[0];
+				p.Learn (new float[]{v.z});
+				this.output = output;
+			}
+
+
 			if (Input.GetMouseButtonDown (0)) {
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				var pos = ray.origin;
@@ -57,24 +75,12 @@ namespace AIRace.Model
 				pos.z = 1;
 				data.Add (pos);
 			}
-			
-
-			errorsum = 0;
-			foreach (Vector3 v in data) {
-				p.Input = new float[]{ v.x, v.y };
-				p.Feed ();
-				float output = p.Output;
-				p.Learn (v.z);
-				this.output = output;
-				error = p.Error;
-				errorsum += error;
-			}
 
 			for (var i = 0; i < pixels.GetLength(0); ++i) {
 				for (var j = 0; j < pixels.GetLength(1); ++j) {
 					p.Input = new float[]{ i/10.0f, j/10.0f };
 					p.Feed ();
-					float output = p.Output;
+					float output = p.Output[0];
 					if (output > 0.5) {
 						pixels [i, j].GetComponent<MeshRenderer> ().material.color = new Color (1, 0, 0);
 					} else {
