@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace AIRace.Model
 {
@@ -17,6 +18,11 @@ namespace AIRace.Model
 			ws = new float[cnt + 1];
 			Activate = fn;
 			inputs = new float[cnt];
+
+			var rand = new System.Random ();
+			for (var i = 0; i < ws.Length; ++i) {
+				ws [i] = (float)rand.NextDouble () * 2 - 1;
+			}
 		}
 
 		public float Error{ get{ return err; } }
@@ -40,6 +46,14 @@ namespace AIRace.Model
 
 		public void Learn(float target, float learningRate=0.7f){
 			err = (target - Output);
+			for(var i=0; i<inputs.Length; ++i){
+				ws [i] += learningRate* inputs [i] * err;
+			}
+			ws[ws.Length-1] += learningRate* 1 * err;
+		}
+
+		public void LearnWithError(float err, float learningRate=0.7f){
+			this.err = err;
 			for(var i=0; i<inputs.Length; ++i){
 				ws [i] += learningRate* inputs [i] * err;
 			}
