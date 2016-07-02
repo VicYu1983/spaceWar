@@ -23,9 +23,16 @@ namespace AIRace.Model
 
 			var layer2 = new PerceptronLayer (2);
 			layer2.Add (new Perceptron (Perceptron.Logistic, 2));
+			/*
+			layer2.Add (new Perceptron (Perceptron.Logistic, 2));
 
+			var layer3 = new PerceptronLayer (2);
+			layer3.Add (new Perceptron (Perceptron.Logistic, 2));
+			*/
+			// 總共3神經元就能訓練xor
 			p.Add (layer);
 			p.Add (layer2);
+			//p.Add (layer3);
 
 			for (var i = 0; i < pixels.GetLength(0); ++i) {
 				for (var j = 0; j < pixels.GetLength(1); ++j) {
@@ -49,17 +56,18 @@ namespace AIRace.Model
 		}
 
 		void Update(){
-			
-			errorsum = 0;
-			foreach (Vector3 v in data) {
-				p.Input = new float[]{ v.x, v.y };
-				p.Feed ();
-				float output = p.Output[0];
-				p.Learn (new float[]{v.z});
-				this.output = output;
+
+			for (var i = 0; i < 100; ++i) {
+				errorsum = 0;
+				foreach (Vector3 v in data) {
+					p.Input = new float[]{ v.x, v.y };
+					p.Feed ();
+					float output = p.Output[0];
+					p.Learn (new float[]{v.z});
+					this.output = output;
+				}
 			}
-
-
+				
 			if (Input.GetMouseButtonDown (0)) {
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				var pos = ray.origin;
