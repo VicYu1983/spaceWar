@@ -6,6 +6,7 @@ namespace AIRace.Model
 {
 	public class TestMultiLayerPerceptron : MonoBehaviour
 	{
+		public int iteration = 10;
 		public List<Vector3> data;
 		public GameObject pixel;
 
@@ -20,19 +21,19 @@ namespace AIRace.Model
 			var layer = new PerceptronLayer (2);
 			layer.Add (new Perceptron (Perceptron.Logistic, 2));
 			layer.Add (new Perceptron (Perceptron.Logistic, 2));
+			layer.Add (new Perceptron (Perceptron.Logistic, 2));
 
-			var layer2 = new PerceptronLayer (2);
-			layer2.Add (new Perceptron (Perceptron.Logistic, 2));
-			/*
-			layer2.Add (new Perceptron (Perceptron.Logistic, 2));
+			var layer2 = new PerceptronLayer (3);
+			layer2.Add (new Perceptron (Perceptron.Logistic, 3));
+			layer2.Add (new Perceptron (Perceptron.Logistic, 3));
 
 			var layer3 = new PerceptronLayer (2);
 			layer3.Add (new Perceptron (Perceptron.Logistic, 2));
-			*/
+
 			// 總共3神經元就能訓練xor
 			p.Add (layer);
 			p.Add (layer2);
-			//p.Add (layer3);
+			p.Add (layer3);
 
 			for (var i = 0; i < pixels.GetLength(0); ++i) {
 				for (var j = 0; j < pixels.GetLength(1); ++j) {
@@ -57,7 +58,7 @@ namespace AIRace.Model
 
 		void Update(){
 
-			for (var i = 0; i < 100; ++i) {
+			for (var i = 0; i < iteration; ++i) {
 				errorsum = 0;
 				foreach (Vector3 v in data) {
 					p.Input = new float[]{ v.x, v.y };
