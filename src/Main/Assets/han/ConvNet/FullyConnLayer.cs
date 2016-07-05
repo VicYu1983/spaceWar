@@ -17,8 +17,8 @@ namespace Han.ConvNet
 			this.num_inputs = opt.sx * opt.sy * opt.depth;
 			this.out_sx = 1;
 			this.out_sy = 1;
-			this.l1_decay_mul = opt.l1_decay_mul;
-			this.l2_decay_mul = opt.l2_decay_mul;
+			this.l1_decay_mul = 0.0f;
+			this.l2_decay_mul = 1.0f;
 
 			var bias = opt.bias_pref;
 			this.filters = new Vol[this.out_depth];

@@ -13,6 +13,11 @@ namespace Han.ConvNet
 		public static float Randn(float mu, float std){
 			return mu + (float)rand.NextDouble () * std;
 		}
+
+		public static float Tanh(float x) {
+			var y = (float)Math.Exp(2 * x);
+			return (y - 1) / (y + 1);
+		}
 	}
 }
 

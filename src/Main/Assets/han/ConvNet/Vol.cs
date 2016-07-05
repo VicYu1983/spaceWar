@@ -27,7 +27,7 @@ namespace Han.ConvNet
 			this.dw = Util.Zeros(n);
 			float scale = (float)Math.Sqrt(1.0/(sx*sy*depth));
 			for(var i=0;i<n;i++) { 
-				this.w[i] = Util.Randn(0.0f, scale);
+				this.w[i] = Util.Randn(-1f, 2f);
 			}
 		}
 
@@ -56,6 +56,10 @@ namespace Han.ConvNet
 		public void AddW(int x, int y, int d, float v) { 
 			var ix=((this.sx * y)+x)*this.depth+d;
 			this.w[ix] += v; 
+		}
+
+		public Vol CloneAndZero(){
+			return new Vol (this.sx, this.sy, this.depth, 0.0f);
 		}
 	}
 }
