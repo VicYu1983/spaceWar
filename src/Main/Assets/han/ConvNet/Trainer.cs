@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Han.ConvNet
 {
@@ -16,6 +17,8 @@ namespace Han.ConvNet
 		public void Train(Vol x, object y){
 			net.Forward (x, true);
 			var cost_loss = net.Backward(y);
+			//Debug.Log ("loss:" + cost_loss);
+
 			var l2_decay_loss = 0.0f;
 			var l1_decay_loss = 0.0f;
 
@@ -39,7 +42,11 @@ namespace Han.ConvNet
 					var l1grad = l1_decay * (p[j] > 0 ? 1 : -1);
 					var l2grad = l2_decay * (p[j]);
 					var gij = (l2grad + l1grad + g [j]);
-					p[j] +=  - this.learning_rate * gij;
+					//p[j] +=  - this.learning_rate * gij;
+					p[j] +=  - this.learning_rate * g[j];
+
+					// 記得要歸0
+					g[j] = 0.0f;
 				}
 			}
 		}

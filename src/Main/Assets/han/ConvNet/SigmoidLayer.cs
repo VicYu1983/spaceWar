@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace Han.ConvNet
 {
-	public class TanhLayer : ILayer
+	public class SigmoidLayer : ILayer
 	{
 		public int out_depth, out_sx, out_sy;
 		public Vol in_act, out_act;
 
-		public TanhLayer (int x, int y, int depth)
-		{
+		public SigmoidLayer(int x, int y, int depth){
 			out_depth = depth;
 			out_sx = x;
 			out_sy = y;
@@ -19,8 +18,10 @@ namespace Han.ConvNet
 			this.in_act = V;
 			var V2 = V.CloneAndZero();
 			var N = V.w.Length;
+			var V2w = V2.w;
+			var Vw = V.w;
 			for(var i=0;i<N;i++) { 
-				V2.w[i] = Util.Tanh(V.w[i]);
+				V2w[i] = 1.0f/(1.0f+(float)Math.Exp(-Vw[i]));
 			}
 			this.out_act = V2;
 			return this.out_act;
@@ -33,13 +34,13 @@ namespace Han.ConvNet
 			V.dw = Util.Zeros(N); // zero out gradient wrt data
 			for(var i=0;i<N;i++) {
 				var v2wi = V2.w[i];
-				V.dw[i] = (1.0f - v2wi * v2wi) * V2.dw[i];
+				V.dw[i] =  v2wi * (1.0f - v2wi) * V2.dw[i];
 			}
-			return 0f;
+			return 0;
 		}
 
 		public void GetParamsAndGrads (List<ParamsAndGrads> list){
-			
+
 		}
 	}
 }

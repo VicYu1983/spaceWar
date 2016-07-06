@@ -12,15 +12,15 @@ namespace Han.ConvNet
 		public Vol in_act, out_act;
 		public float l1_decay_mul, l2_decay_mul;
 
-		public FullyConnLayer (Opt opt){
-			this.out_depth = opt.num_neurons;
-			this.num_inputs = opt.sx * opt.sy * opt.depth;
+		public FullyConnLayer (int depth, int numOfOutput, float bias_pref = 0.0f){
+			this.out_depth = numOfOutput;
+			this.num_inputs = 1 * 1 * depth;
 			this.out_sx = 1;
 			this.out_sy = 1;
 			this.l1_decay_mul = 0.0f;
 			this.l2_decay_mul = 1.0f;
 
-			var bias = opt.bias_pref;
+			var bias = bias_pref;
 			this.filters = new Vol[this.out_depth];
 			for(var i=0;i<this.out_depth ;i++) {
 				filters [i] = new Vol (1, 1, this.num_inputs);

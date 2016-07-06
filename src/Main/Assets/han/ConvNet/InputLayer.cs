@@ -8,11 +8,11 @@ namespace Han.ConvNet
 		public int out_depth, out_sx, out_sy;
 		public Vol in_act, out_act;
 
-		public InputLayer (Opt opt)
+		public InputLayer (int x, int y, int depth)
 		{
-			out_depth = opt.depth;
-			out_sx = opt.sx;
-			out_sy = opt.sy;
+			out_depth = depth;
+			out_sx = x;
+			out_sy = y;
 		}
 
 		public Vol Forward(Vol V, bool is_training) {
