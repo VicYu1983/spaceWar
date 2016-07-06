@@ -33,28 +33,6 @@ namespace Han.ConvNet
 			net.AddLayer (new SigmoidLayer (1, 1, 1));
 
 			net.AddLayer (new RegressionLayer (1, 1, 1));
-			/*
-			Vol action;
-
-			for (var i = 0; i < 5000; ++i) {
-				trainer.Train (new Vol(new float[]{ 0, 0 }), 0f);
-				trainer.Train (new Vol(new float[]{ 1, 1 }), 0f);
-				trainer.Train (new Vol(new float[]{ 1, 0 }), 1f);
-				trainer.Train (new Vol(new float[]{ 0, 1 }), 1f);
-
-				if (i % 100 == 0) {
-					action = net.Forward (new Vol (new float[]{ 0, 0 }));
-					print ("after:"+action.w[0]);
-					action = net.Forward (new Vol (new float[]{ 1, 1 }));
-					print ("after:"+action.w[0]);
-					action = net.Forward (new Vol (new float[]{ 1, 0 }));
-					print ("after:"+action.w[0]);
-					action = net.Forward (new Vol (new float[]{ 0, 1 }));
-					print ("after:"+action.w[0]);
-					print ("========" + i + "=========");
-				}
-			}
-			*/
 		}
 
 		void Update(){
