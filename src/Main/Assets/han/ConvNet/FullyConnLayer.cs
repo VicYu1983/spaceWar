@@ -5,12 +5,12 @@ namespace Han.ConvNet
 {
 	public class FullyConnLayer : ILayer
 	{
-		public int out_depth, out_sx, out_sy;
-		public int num_inputs;
-		public Vol[] filters;
-		public Vol biases;
-		public Vol in_act, out_act;
-		public float l1_decay_mul, l2_decay_mul;
+		int out_depth, out_sx, out_sy;
+		int num_inputs;
+		Vol[] filters;
+		Vol biases;
+		Vol in_act, out_act;
+		float l1_decay_mul, l2_decay_mul;
 
 		public FullyConnLayer (int depth, int numOfOutput, float bias_pref = 0.0f){
 			this.out_depth = numOfOutput;

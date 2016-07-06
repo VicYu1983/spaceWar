@@ -5,8 +5,8 @@ namespace Han.ConvNet
 {
 	public class InputLayer : ILayer
 	{
-		public int out_depth, out_sx, out_sy;
-		public Vol in_act, out_act;
+		int out_depth, out_sx, out_sy;
+		Vol in_act, out_act;
 
 		public InputLayer (int x, int y, int depth)
 		{

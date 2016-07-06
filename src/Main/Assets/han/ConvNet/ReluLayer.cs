@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 namespace Han.ConvNet
 {
-	public class TanhLayer : ILayer
+	public class ReluLayer
 	{
 		int out_depth, out_sx, out_sy;
 		Vol in_act, out_act;
 
-		public TanhLayer (int x, int y, int depth)
+		public ReluLayer (int x, int y, int depth)
 		{
 			out_depth = depth;
 			out_sx = x;
 			out_sy = y;
 		}
-
 		public Vol Forward (Vol V, bool is_training){
 			this.in_act = V;
-			var V2 = V.CloneAndZero();
+			var V2 = V.Clone();
 			var N = V.w.Length;
+			var V2w = V2.w;
 			for(var i=0;i<N;i++) { 
-				V2.w[i] = Util.Tanh(V.w[i]);
+				if(V2w[i] < 0) V2w[i] = 0; // threshold at 0
 			}
 			this.out_act = V2;
 			return this.out_act;
@@ -32,14 +32,14 @@ namespace Han.ConvNet
 			var N = V.w.Length;
 			V.dw = Util.Zeros(N); // zero out gradient wrt data
 			for(var i=0;i<N;i++) {
-				var v2wi = V2.w[i];
-				V.dw[i] = (1.0f - v2wi * v2wi) * V2.dw[i];
+				if(V2.w[i] <= 0) V.dw[i] = 0; // threshold
+				else V.dw[i] = V2.dw[i];
 			}
-			return 0f;
+			return 0;
 		}
 
 		public void GetParamsAndGrads (List<ParamsAndGrads> list){
-			
+
 		}
 	}
 }
