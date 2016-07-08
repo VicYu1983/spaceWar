@@ -28,12 +28,27 @@ namespace WalkingDeadInDown.Model
 
 		}
 		public bool VerifyReceiverDelegate(object receiver){
-			return receiver is IInputListener;
+			return receiver is IInputManagerListener;
 		}
 
 		List<GameObject> cantouchs = new List<GameObject>();
 
 		void Update(){
+			if (Input.GetMouseButtonUp (1)) {
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				foreach (GameObject go in cantouchs) {
+					Collider col = go.GetComponent<Collider> ();
+					if (col != null) {
+						RaycastHit hit;
+						if (col.Raycast (ray, out hit, 100)) {
+							foreach (IInputManagerListener obj in proxy.Receivers) {
+								obj.OnInputMouseObject (TouchPhase.Ended, 1, go);
+							}
+						}
+					}
+				}
+			}
+
 			if (Input.touchCount > 0 ) {
 				if( Input.GetTouch(0).phase == TouchPhase.Began ){
 					Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch (0).position);
@@ -42,8 +57,8 @@ namespace WalkingDeadInDown.Model
 						if (col != null) {
 							RaycastHit hit;
 							if (col.Raycast (ray, out hit, 100)) {
-								foreach (IInputListener obj in proxy.Receivers) {
-									obj.OnInputTouchBegin (go);
+								foreach (IInputManagerListener obj in proxy.Receivers) {
+									obj.OnInputTouchObject (TouchPhase.Began, go);
 								}
 							}
 						}
@@ -56,8 +71,22 @@ namespace WalkingDeadInDown.Model
 						if (col != null) {
 							RaycastHit hit;
 							if (col.Raycast (ray, out hit, 100)) {
-								foreach (IInputListener obj in proxy.Receivers) {
-									obj.OnInputTouchHold (go);
+								foreach (IInputManagerListener obj in proxy.Receivers) {
+									obj.OnInputTouchObject (TouchPhase.Stationary, go);
+								}
+							}
+						}
+					}
+				}
+				if (Input.GetTouch (0).phase == TouchPhase.Ended) {
+					Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch (0).position);
+					foreach (GameObject go in cantouchs) {
+						Collider col = go.GetComponent<Collider> ();
+						if (col != null) {
+							RaycastHit hit;
+							if (col.Raycast (ray, out hit, 100)) {
+								foreach (IInputManagerListener obj in proxy.Receivers) {
+									obj.OnInputTouchObject (TouchPhase.Ended, go);
 								}
 							}
 						}
@@ -65,6 +94,7 @@ namespace WalkingDeadInDown.Model
 				}
 			}
 		}
+
 		public ITagManager TagManager{ set; get; }
 
 		public void OnManage(ITagObject obj){
@@ -78,6 +108,7 @@ namespace WalkingDeadInDown.Model
 				cantouchs.Remove (obj.Belong);
 			}
 		}
+
 	}
 }
 

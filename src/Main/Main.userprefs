@@ -1,8 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/han/ConvNet/Trainer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/han/WalkingDeadInDown/InputManager.cs">
     <Files>
-      <File FileName="Assets/han/ConvNet/Trainer.cs" Line="44" Column="6" />
+      <File FileName="Assets/han/WalkingDeadInDown/InputManager.cs" Line="66" Column="5" />
+      <File FileName="Assets/han/WalkingDeadInDown/IFireAction.cs" Line="1" Column="1" />
+      <File FileName="Assets/han/WalkingDeadInDown/IFireSystemListener.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

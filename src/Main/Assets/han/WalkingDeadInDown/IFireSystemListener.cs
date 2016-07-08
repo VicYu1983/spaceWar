@@ -5,9 +5,10 @@ namespace WalkingDeadInDown.Model
 {
 	public interface IFireSystemListener
 	{
-		void OnFireSystemFire (FireSystem fs, GameObject target, object obj);
-		void OnFireSystemSpecFire (FireSystem fs, GameObject target, object obj);
-		void OnFireSystemStock (FireSystem fs, GameObject target, object obj);
+		void OnFireSystemFire (FireSystem fs, GameObject target, object info);
+		void OnFireSystemSpecFire (FireSystem fs, GameObject target, object info);
+		void OnFireSystemStock (FireSystem fs, GameObject target, object info);
+		void OnFireSystemSwordAttack(FireSystem fs, GameObject target, object info);
 	}
 }
 

@@ -5,7 +5,7 @@ using Han.Util;
 
 namespace WalkingDeadInDown.Model
 {
-	public class FireSystem : MonoBehaviour, IEventSenderVerifyProxyDelegate, IInputListener
+	public class FireSystem : MonoBehaviour, IEventSenderVerifyProxyDelegate, IInputManagerListener, IKeyListener
 	{
 		EventSenderVerifyProxy proxy;
 
@@ -79,6 +79,12 @@ namespace WalkingDeadInDown.Model
 			}
 		}
 
+		public void SwordAttack(GameObject target){
+			foreach (IFireSystemListener obj in proxy.Receivers) {
+				obj.OnFireSystemSwordAttack (this, target, null);
+			}
+		}
+
 		public void Fire(GameObject target){
 			foreach (IFireSystemListener obj in proxy.Receivers) {
 				obj.OnFireSystemFire (this, target, null);
@@ -91,6 +97,10 @@ namespace WalkingDeadInDown.Model
 			}
 		}
 
+		public void MoveToPositionStep(Vector3 pos){
+
+		}
+
 		void Update(){
 			if (action != null) {
 				if (action.Update ()) {
@@ -98,13 +108,49 @@ namespace WalkingDeadInDown.Model
 				}
 			}
 		}
-
-		public void OnInputTouchBegin(GameObject go){
-			Action (new NormalFireAction (){ Target = go });
+			
+		public void OnInputTouchObject(TouchPhase phase, GameObject go){
+			switch (phase) {
+			case TouchPhase.Stationary:
+			case TouchPhase.Ended:
+				Action (new NormalFireAction (){ Target = go });
+				break;
+			}
 		}
 
-		public void OnInputTouchHold(GameObject go){
-			Action (new NormalFireAction (){ Target = go });
+		public void OnInputMouseObject(TouchPhase phase, int button, GameObject go){
+			if (button == 1) {
+				Action (new MoveToTargetAndAttackAction (){ Target = go });
+			}
+		}
+
+		public void OnKeyDown(KeyCode code){
+
+		}
+		public void OnKeyHold(KeyCode code){
+			if (code == KeyCode.F) {
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				MoveToPositionStep (ray.origin);
+			}
+
+			if (code == KeyCode.W) {
+				//TODO move up
+			}
+
+			if (code == KeyCode.D) {
+				//TODO move right
+			}
+
+			if (code == KeyCode.S) {
+				//TODO move down
+			}
+
+			if (code == KeyCode.A) {
+				//TODO move left
+			}
+		}
+		public void OnKeyUp(KeyCode code){
+
 		}
 	}
 }
