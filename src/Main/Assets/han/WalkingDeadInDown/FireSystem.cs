@@ -38,13 +38,18 @@ namespace WalkingDeadInDown.Model
 			if (this.action != null) {
 				if (force) {
 					this.action.Cancel ();
+					this.action = null;
 				} else {
 					return false;
 				}
 			}
-			action.FireSystem = this;
-			action.Init ();
-			return true;
+			if (action != null) {
+				action.FireSystem = this;
+				action.Init ();
+				this.action = action;
+				return true;
+			}
+			return false;
 		}
 
 		public IFireAction CurrAction{
@@ -98,7 +103,11 @@ namespace WalkingDeadInDown.Model
 		}
 
 		public void MoveToPositionStep(Vector3 pos){
-
+			var curr = gameObject.transform.position;
+			var v = pos - curr;
+			v *= 0.2f;
+			curr += v;
+			gameObject.transform.position = curr;
 		}
 
 		void Update(){
@@ -119,8 +128,17 @@ namespace WalkingDeadInDown.Model
 		}
 
 		public void OnInputMouseObject(TouchPhase phase, int button, GameObject go){
+			if (button == 0) {
+				switch (phase) {
+				case TouchPhase.Stationary:
+				case TouchPhase.Ended:
+					Action (new NormalFireAction (){ Target = go });
+					break;
+				}
+			}
+
 			if (button == 1) {
-				Action (new MoveToTargetAndAttackAction (){ Target = go });
+				Action (new MoveToTargetAndAttackAction (){ Target = go }, true);
 			}
 		}
 
@@ -130,23 +148,34 @@ namespace WalkingDeadInDown.Model
 		public void OnKeyHold(KeyCode code){
 			if (code == KeyCode.F) {
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				MoveToPositionStep (ray.origin);
+				var pos = ray.origin;
+				pos.z = gameObject.transform.position.z;
+				MoveToPositionStep (pos);
+				Action (null, true);
 			}
 
 			if (code == KeyCode.W) {
-				//TODO move up
+				var pos = gameObject.transform.position;
+				MoveToPositionStep (pos + new Vector3 (0, 1, 0));
+				Action (null, true);
 			}
 
 			if (code == KeyCode.D) {
-				//TODO move right
+				var pos = gameObject.transform.position;
+				MoveToPositionStep (pos + new Vector3 (1, 0, 0));
+				Action (null, true);
 			}
 
 			if (code == KeyCode.S) {
-				//TODO move down
+				var pos = gameObject.transform.position;
+				MoveToPositionStep (pos + new Vector3 (0, -1, 0));
+				Action (null, true);
 			}
 
 			if (code == KeyCode.A) {
-				//TODO move left
+				var pos = gameObject.transform.position;
+				MoveToPositionStep (pos + new Vector3 (-1, 0, 0));
+				Action (null, true);
 			}
 		}
 		public void OnKeyUp(KeyCode code){

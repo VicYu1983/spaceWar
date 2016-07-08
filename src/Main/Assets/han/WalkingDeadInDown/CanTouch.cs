@@ -5,9 +5,7 @@ namespace WalkingDeadInDown.Model
 {
 	public class CanTouch : MonoBehaviour
 	{
-		public CanTouch ()
-		{
-		}
+		
 	}
 }
 

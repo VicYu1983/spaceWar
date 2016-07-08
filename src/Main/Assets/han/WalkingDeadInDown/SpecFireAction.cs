@@ -14,16 +14,16 @@ namespace WalkingDeadInDown.Model
 			animationTimer = 0;
 		}
 		public bool Update(){
-			animationTimer += Time.deltaTime;
 			if (animationTimer == 0) {
 				FireSystem.Stock (Target);
 			}
-			if (lastTimer < 3 && animationTimer >= 3) {
+			if (lastTimer < 1 && animationTimer >= 1) {
 				FireSystem.SpecFire (Target);
-			} else if( animationTimer > 3.2 ){
+			} else if( animationTimer > 1.2 ){
 				return true;
 			}
 			lastTimer = animationTimer;
+			animationTimer += Time.deltaTime;
 			return false;
 		}
 		public void Cancel(){

@@ -13,13 +13,13 @@ namespace WalkingDeadInDown.Model
 	public class MoveToTargetAndAttackAction : IFireAction
 	{
 		public FireSystem FireSystem{ get; set; }
-		public GameObject Self{ get; set; }
 		public GameObject Target{ get; set; }
 		public MoveToTargetAndAttackActionStep Step{ get; set; }
 		float animationTimer = 0f;
 
 		bool IsCloseToTarget(){
-			return false;
+			var dist = Vector3.Distance (FireSystem.transform.position, Target.transform.position);
+			return dist < 1;
 		}
 		void MoveToTarget(){
 			FireSystem.MoveToPositionStep (Target.transform.position);
