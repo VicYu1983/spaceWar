@@ -84,7 +84,7 @@ namespace WalkingDeadInDown.Model
 				}
 			}
 
-
+			/*
 			if (Input.touchCount > 0 ) {
 				if( Input.GetTouch(0).phase == TouchPhase.Began ){
 					Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch (0).position);
@@ -129,6 +129,7 @@ namespace WalkingDeadInDown.Model
 					}
 				}
 			}
+			*/
 		}
 
 		public ITagManager TagManager{ set; get; }

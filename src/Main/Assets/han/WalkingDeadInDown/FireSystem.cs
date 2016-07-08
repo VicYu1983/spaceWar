@@ -58,6 +58,10 @@ namespace WalkingDeadInDown.Model
 			}
 		}
 
+		public void ClearRecordFireTarget(){
+			history.Clear ();
+		}
+
 		public void RecordFireTarget(GameObject target){
 			history.Add (target);
 			if (history.Count > shootTimesForSpecShoot) {
@@ -117,7 +121,7 @@ namespace WalkingDeadInDown.Model
 				}
 			}
 		}
-			
+		/*
 		public void OnInputTouchObject(TouchPhase phase, GameObject go){
 			switch (phase) {
 			case TouchPhase.Stationary:
@@ -126,7 +130,7 @@ namespace WalkingDeadInDown.Model
 				break;
 			}
 		}
-
+		*/
 		public void OnInputMouseObject(TouchPhase phase, int button, GameObject go){
 			if (button == 0) {
 				switch (phase) {

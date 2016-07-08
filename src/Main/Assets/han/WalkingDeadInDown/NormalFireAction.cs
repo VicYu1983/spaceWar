@@ -15,6 +15,7 @@ namespace WalkingDeadInDown.Model
 		public bool Update(){
 			if (animationTimer == 0) {
 				if (FireSystem.IsAlreadyTargetTimes ()) {
+					FireSystem.ClearRecordFireTarget ();
 					FireSystem.Action (new SpecFireAction (){ Target = Target }, true);
 				} else {
 					FireSystem.Fire (Target);
