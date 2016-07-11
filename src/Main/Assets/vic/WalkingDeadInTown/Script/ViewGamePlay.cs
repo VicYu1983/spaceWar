@@ -9,6 +9,7 @@ namespace WalkingDeadInTown.View{
 
 		public GameObject player;
 		public GameObject enemy;
+		public GameObject ground;
 
 		Hashtable modelObjs = new Hashtable();
 		Hashtable viewObjs = new Hashtable();
@@ -31,6 +32,11 @@ namespace WalkingDeadInTown.View{
 
 		void OnDestroy(){
 			EventManager.Singleton.Remove (this);
+		}
+
+		void Start(){
+			GameObject g = Instantiate (ground);
+			g.transform.parent = this.transform;
 		}
 
 		GameObject GetViewObjectBySeqId( int seqId ){
