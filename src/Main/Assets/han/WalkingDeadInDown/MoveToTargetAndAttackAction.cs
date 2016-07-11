@@ -21,8 +21,8 @@ namespace WalkingDeadInDown.Model
 			var dist = Vector3.Distance (FireSystem.transform.position, Target.transform.position);
 			return dist < 1;
 		}
-		void MoveToTarget(){
-			FireSystem.MoveToPositionStep (Target.transform.position);
+		void MoveToTarget(float deltaTime){
+			FireSystem.MoveToPositionStep (Target.transform.position, deltaTime);
 		}
 		public void Init(){
 			Step = MoveToTargetAndAttackActionStep.Pendding;
@@ -38,7 +38,7 @@ namespace WalkingDeadInDown.Model
 				break;
 			case MoveToTargetAndAttackActionStep.MoveToTarget:
 				if (IsCloseToTarget () == false) {
-					MoveToTarget ();
+					MoveToTarget (Time.deltaTime);
 				} else {
 					Step = MoveToTargetAndAttackActionStep.Attack;
 				}
