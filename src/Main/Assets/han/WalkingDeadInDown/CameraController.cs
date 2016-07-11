@@ -7,6 +7,7 @@ namespace WalkingDeadInDown.Model
 	public class CameraController : MonoBehaviour, ITagManagerListener
 	{
 		public GameObject maincamera;
+		public float factor = 0.5f;
 		public GameObject player;
 
 		void Start (){
@@ -22,7 +23,7 @@ namespace WalkingDeadInDown.Model
 
 				var v = pos - maincamera.transform.position;
 				var curr = maincamera.transform.position;
-				curr += v / 2;
+				curr += v * factor;
 				curr.z = z;
 				maincamera.transform.position = curr;
 			}
