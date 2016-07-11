@@ -7,6 +7,7 @@ namespace WalkingDeadInDown.Model
 {
 	public class FireSystem : MonoBehaviour, IEventSenderVerifyProxyDelegate, IInputManagerListener, IKeyListener
 	{
+		public float moveDistance = 1;
 		EventSenderVerifyProxy proxy;
 
 		void Awake(){
@@ -106,12 +107,19 @@ namespace WalkingDeadInDown.Model
 			}
 		}
 
-		public void MoveToPositionStep(Vector3 pos){
+		public void MoveToPositionStep(Vector3 pos, float deltaTime){
 			var curr = gameObject.transform.position;
 			var v = pos - curr;
-			v *= 0.2f;
-			curr += v;
-			gameObject.transform.position = curr;
+			var dis = v.sqrMagnitude;
+
+			if (dis > moveDistance* deltaTime) {
+				v.Normalize ();
+				curr += v* moveDistance* deltaTime;
+				gameObject.transform.position = curr;
+
+			} else {
+				gameObject.transform.position = pos;
+			}
 		}
 
 		void Update(){
@@ -154,31 +162,31 @@ namespace WalkingDeadInDown.Model
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				var pos = ray.origin;
 				pos.z = gameObject.transform.position.z;
-				MoveToPositionStep (pos);
+				MoveToPositionStep (pos, Time.deltaTime);
 				Action (null, true);
 			}
 
 			if (code == KeyCode.W) {
 				var pos = gameObject.transform.position;
-				MoveToPositionStep (pos + new Vector3 (0, 1, 0));
+				MoveToPositionStep (pos + new Vector3 (0, 1, 0), Time.deltaTime);
 				Action (null, true);
 			}
 
 			if (code == KeyCode.D) {
 				var pos = gameObject.transform.position;
-				MoveToPositionStep (pos + new Vector3 (1, 0, 0));
+				MoveToPositionStep (pos + new Vector3 (1, 0, 0), Time.deltaTime);
 				Action (null, true);
 			}
 
 			if (code == KeyCode.S) {
 				var pos = gameObject.transform.position;
-				MoveToPositionStep (pos + new Vector3 (0, -1, 0));
+				MoveToPositionStep (pos + new Vector3 (0, -1, 0), Time.deltaTime);
 				Action (null, true);
 			}
 
 			if (code == KeyCode.A) {
 				var pos = gameObject.transform.position;
-				MoveToPositionStep (pos + new Vector3 (-1, 0, 0));
+				MoveToPositionStep (pos + new Vector3 (-1, 0, 0), Time.deltaTime);
 				Action (null, true);
 			}
 		}
