@@ -4,53 +4,58 @@ using WalkingDeadInDown.Model;
 using Han.Util;
 
 namespace WalkingDeadInTown.View{
-	public class Player : MonoBehaviour, IFireSystemListener {
+	public class Player : MonoBehaviour {
 
 		Vector3 oldPosition;
+		Vector3 usingLeftScale = new Vector3 (-.1f, .1f, .1f);
+		Vector3 usingRightScale = new Vector3 (.1f, .1f, .1f);
+
+		string bodyState = "none";
+		float animationTimer = 0f;
 
 		public void SetState( string state ){
 			switch (state) {
 			case "Walking":
-			//	transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
+				if( bodyState == "none" )
+					transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
 				transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
 				break;
 			case "Running":
-			//	transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
+				if( bodyState == "none" )
+					transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
 				transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
 				break;
 			case "Fire":
 			case "SpecFire":
 			case "Stock":
 			case "SwordAttack":
+				animationTimer = 0;
+
+				bodyState = state;
 				transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
 				break;
 			}
 		}
 
-		public void SetDirect( bool isUp ){
-			if (isUp) {
-				transform.Find ("DirectState").GetComponent<TextMesh> ().text = "UP";
-			} else {
-				transform.Find ("DirectState").GetComponent<TextMesh> ().text = "Down";
+		public void SetPosition( Vector3 pos ){
+			Vector3 posoff = pos - transform.localPosition;
+			if (posoff.y != 0) {
+				bool isUp = posoff.y > 0;
+				SetUpDown (isUp);
 			}
-		}
+			if (posoff.x != 0) {
+				bool isLeft = posoff.x < 0;
+				SetLeftRight (isLeft);
+			}
+			if (posoff.magnitude > 1) {
+				SetState ("Running");
+			} else {
+				SetState ("Walking");
+			}
 
-		public void OnFireSystemFire (FireSystem fs, GameObject target, object info){
-			SetState ("Fire");
+			transform.localPosition = pos;
 		}
-
-		public void OnFireSystemSpecFire (FireSystem fs, GameObject target, object info){
-			SetState ("SpecFire");
-		}
-
-		public void OnFireSystemStock (FireSystem fs, GameObject target, object info){
-			SetState ("Stock");
-		}
-
-		public void OnFireSystemSwordAttack(FireSystem fs, GameObject target, object info){
-			SetState ("SwordAttack");
-		}
-
+			
 		void Awake(){
 			EventManager.Singleton.Add (this);
 		}
@@ -59,28 +64,29 @@ namespace WalkingDeadInTown.View{
 			EventManager.Singleton.Remove (this);
 		}
 
-		void JudgeDirect(){
-			if (oldPosition == null) {
-				oldPosition = transform.position;
-			} else {
-				Vector3 posoff = transform.position - oldPosition;
-				if (posoff.y != 0) {
-					bool isUp = posoff.y > 0;
-					SetDirect (isUp);
-				}
-				if (posoff.magnitude > 2) {
-					SetState ("Running");
-				} else {
-					SetState ("Walking");
-				}
-
-				oldPosition = transform.position;
+		void Update(){
+			animationTimer += Time.deltaTime;
+			if (animationTimer > .5f) {
+				bodyState = "none";
 			}
 		}
-		
-		// Update is called once per frame
-		void Update () {
-			JudgeDirect ();
+
+		void SetUpDown( bool isUp ){
+			if (isUp) {
+				transform.Find ("DirectState").GetComponent<TextMesh> ().text = "UP";
+			} else {
+				transform.Find ("DirectState").GetComponent<TextMesh> ().text = "Down";
+			}
+		}
+
+		void SetLeftRight( bool isLeft ){
+			if (isLeft) {
+				transform.Find ("Body").transform.localScale = usingLeftScale;
+				transform.Find ("Foot").transform.localScale = usingLeftScale;
+			} else {
+				transform.Find ("Body").transform.localScale = usingRightScale;
+				transform.Find ("Foot").transform.localScale = usingRightScale;
+			}
 		}
 	}
 }
