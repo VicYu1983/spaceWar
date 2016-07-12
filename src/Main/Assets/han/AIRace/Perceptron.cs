@@ -41,7 +41,7 @@ namespace AIRace.Model
 		}
 
 		public void Learn(float target, float learningRate=0.7f){
-			// 用Logistic的回饋函數
+			// 用Logistic的"回饋"函數
 			err = (target - Output)*Output*(1-Output);
 			for(var i=0; i<inputs.Length; ++i){
 				ws [i] += learningRate* inputs [i] * err;
