@@ -21,19 +21,20 @@ namespace AIRace.Model
 			var layer = new PerceptronLayer (2);
 			layer.Add (new Perceptron (2));
 			layer.Add (new Perceptron (2));
-			layer.Add (new Perceptron (2));
+			//layer.Add (new Perceptron (2));
 
-			var layer2 = new PerceptronLayer (3);
-			layer2.Add (new Perceptron (3));
+			var layer2 = new PerceptronLayer (2);
+			layer2.Add (new Perceptron (2));
+			/*
 			layer2.Add (new Perceptron (3));
 
 			var layer3 = new PerceptronLayer (2);
 			layer3.Add (new Perceptron (2));
-
+			*/
 			// 總共3神經元就能訓練xor
 			p.Add (layer);
 			p.Add (layer2);
-			p.Add (layer3);
+			// p.Add (layer3);
 
 			for (var i = 0; i < pixels.GetLength(0); ++i) {
 				for (var j = 0; j < pixels.GetLength(1); ++j) {
