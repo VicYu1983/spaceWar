@@ -3,24 +3,15 @@ using UnityEngine;
 
 namespace AIRace.Model
 {
-	public delegate float ActivateFn(float v);
-
 	public class Perceptron
 	{
-		public static float Logistic(float v){
-			return 1/(1+Mathf.Exp(-v));
-		}
-
 		float[] ws;
-		ActivateFn Activate;
-
 		float[] inputs;
 		float output;
 		float err;
 
-		public Perceptron (ActivateFn fn, int cnt=2){
+		public Perceptron (int cnt=2){
 			ws = new float[cnt + 1];
-			Activate = fn;
 			inputs = new float[cnt];
 
 			var rand = new System.Random ();
@@ -45,26 +36,18 @@ namespace AIRace.Model
 				value += inputs [i] * ws [i];
 			}
 			value += 1 * ws [ws.Length - 1];
-			// output基本上要受到激發函數改成-1~1或0~1之間的值，不然，很容易在Learn方法算error時溢位(超過1)，權重就被越算越大(超過1)
-			output = Activate (value);
+			// 用Logistic激發函數
+			output = 1/(1+Mathf.Exp(-value));
 		}
 
 		public void Learn(float target, float learningRate=0.7f){
+			// 用Logistic的回饋函數
 			err = (target - Output)*Output*(1-Output);
 			for(var i=0; i<inputs.Length; ++i){
 				ws [i] += learningRate* inputs [i] * err;
 			}
 			ws[ws.Length-1] += learningRate* 1 * err;
 		}
-		/*
-		public void LearnWithError(float err, float learningRate=0.7f){
-			this.err = err;
-			for(var i=0; i<inputs.Length; ++i){
-				ws [i] += learningRate* inputs [i] * err;
-			}
-			ws[ws.Length-1] += learningRate* 1 * err;
-		}
-		*/
 	}
 }
 

@@ -13,7 +13,7 @@ namespace AIRace.Model
 		public float error;
 		public float errorsum;
 
-		Perceptron p = new Perceptron(Perceptron.Logistic, 2);
+		Perceptron p = new Perceptron(2);
 
 		GameObject[,] pixels = new GameObject[10, 10];
 
