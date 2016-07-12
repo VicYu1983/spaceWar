@@ -48,7 +48,7 @@ namespace AIRace.Model
 				bpn.Learn (action);
 			} else {
 				float[] currAction = bpn.Output;
-				Target.PerformAction (currAction);
+				Target.PerformAction (currAction, Time.deltaTime);
 			}
 		}
 	}

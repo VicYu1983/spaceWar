@@ -6,7 +6,7 @@ namespace AIRace.Model
 	{
 		float[] State{ get; }
 		float[] Action{ get; }
-		void PerformAction(float[] action);
+		void PerformAction(float[] action, float deltaTime);
 	}
 }
 
