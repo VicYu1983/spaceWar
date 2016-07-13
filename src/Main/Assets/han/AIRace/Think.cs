@@ -11,7 +11,7 @@ namespace AIRace.Model
 
 		ILearnTarget Target{ 
 			get{
-				return null;
+				return target.GetComponent<Car>();
 			} 
 		}
 
