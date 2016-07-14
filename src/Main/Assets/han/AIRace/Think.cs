@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace AIRace.Model
 {
@@ -8,6 +9,11 @@ namespace AIRace.Model
 		public GameObject teacher;
 		public GameObject me;
 		public bool learn = true;
+		public int historyCount;
+
+		int addCount=0;
+		List<float[]> statehistory = new List<float[]>();
+		List<float[]> actionhistory = new List<float[]>();
 
 		MultiLayerPerceptron bpn;
 
@@ -79,17 +85,44 @@ namespace AIRace.Model
 		}
 
 		void Update(){
-			float[] state = TeacherCar.State;
+			if (addCount % 10 == 0) {
+				float[] state2 = TeacherCar.State;
+				float[] action = TeacherCar.Action;
+				float[] s = new float[state2.Length];
+				for (var i = 0; i < state2.Length; ++i) {
+					s [i] = state2 [i];
+				}
+				float[] a = new float[action.Length];
+				for (var i = 0; i < action.Length; ++i) {
+					a [i] = action [i];
+				}
+				statehistory.Add (s);
+				actionhistory.Add (a);
+
+				if (statehistory.Count > 100) {
+					statehistory.RemoveAt (0);
+					actionhistory.RemoveAt (0);
+				}
+
+				historyCount = statehistory.Count;
+			}
+			++addCount;
+		
+			if (learn) {
+				for (var i = 0; i < statehistory.Count; ++i) {
+					var s = statehistory [i];
+					var a = actionhistory [i];
+					bpn.Input = s;
+					bpn.Feed ();
+					bpn.Learn (a);
+				}
+			}
+
+			float[] state = MyCar.State;
 			bpn.Input = state;
 			bpn.Feed ();
-			if (learn) {
-				float[] action = TeacherCar.Action;
-				//print (state[0]+","+state[1]+","+state[2]+":"+action [0] + "," + action [1]);
-				bpn.Learn (action, 1);
-			} else {
-				float[] currAction = bpn.Output;
-				MyCar.PerformAction (currAction, Time.deltaTime);
-			}
+			float[] currAction = bpn.Output;
+			MyCar.PerformAction (currAction, Time.deltaTime);
 		}
 	}
 }

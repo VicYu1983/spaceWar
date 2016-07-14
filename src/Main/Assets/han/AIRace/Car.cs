@@ -24,14 +24,14 @@ namespace AIRace.Model
 		}
 
 		void UpdateState(){
-			State [0] = transform.position.x / 300;
-			State [1] = transform.position.y / 300;
+			State [0] = transform.position.x / 10;
+			State [1] = transform.position.y / 10;
 			State [2] = transform.rotation.eulerAngles.z;
 		}
 
 		public void PerformAction(float[] action, float deltaTime){
 			var forward = (action [0]-0.5f)*2 * maxSpeed;
-			var rotation = (action [1]-0.5f)*360;
+			var rotation = (action [1]-0.5f)*180;
 			transform.position += transform.right * forward * deltaTime;
 
 			var angle = transform.rotation.eulerAngles;

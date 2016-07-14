@@ -16,13 +16,18 @@ namespace AIRace.Model
 		void OnDestroy(){
 			EventManager.Singleton.Remove(this);
 		}
+		void Update(){
+			for (var i = 0; i < action.Count; ++i) {
+				action [i] += (0.5f - action [i])*0.5f;
+			}
+			Car c = car.GetComponent<Car> ();
+			c.PerformAction (action.ToArray(), Time.deltaTime);
+		}
 
 		public void OnKeyDown(KeyCode code){
 
 		}
 		public void OnKeyHold(KeyCode code){
-			Car c = car.GetComponent<Car> ();
-
 			switch (code) {
 			case KeyCode.E:
 				action [0] = 1;
@@ -46,8 +51,6 @@ namespace AIRace.Model
 					action [i] = 0;
 				}
 			}
-
-			c.PerformAction (action.ToArray(), Time.deltaTime);
 		}
 		public void OnKeyUp(KeyCode code){
 
