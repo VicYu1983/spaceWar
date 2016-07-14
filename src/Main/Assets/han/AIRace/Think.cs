@@ -5,19 +5,27 @@ namespace AIRace.Model
 {
 	public class Think : MonoBehaviour
 	{
-		public GameObject target;
+		public GameObject teacher;
+		public GameObject me;
 		public bool learn = true;
+
 		MultiLayerPerceptron bpn;
 
-		ILearnTarget Target{ 
+		ILearnTarget TeacherCar {
+			get {
+				return teacher.GetComponent<Car> ();
+			}
+		}
+
+		ILearnTarget MyCar{ 
 			get{
-				return target.GetComponent<Car>();
+				return me.GetComponent<Car>();
 			} 
 		}
 
 		void Start(){
-			float[] state = Target.State;
-			float[] action = Target.Action;
+			float[] state = TeacherCar.State;
+			float[] action = TeacherCar.Action;
 
 			bpn = new MultiLayerPerceptron (state.Length);
 			var layer = new PerceptronLayer (state.Length);
@@ -37,18 +45,50 @@ namespace AIRace.Model
 			bpn.Add (layer);
 			bpn.Add (layer2);
 			bpn.Add (layer3);
+
+			/*
+			for (var i = 0; i < 1000; ++i) {
+				bpn.Input = new float[]{ 0, 0, 0 };
+				bpn.Feed ();
+				bpn.Learn (new float[]{ 1, 1 });
+
+				bpn.Input = new float[]{ 1, 1, 1 };
+				bpn.Feed ();
+				bpn.Learn (new float[]{ 0, 0 });
+
+				bpn.Input = new float[]{ 1, 0, 1 };
+				bpn.Feed ();
+				bpn.Learn (new float[]{ 0.5f, 0.5f });
+			}
+
+			bpn.Input = new float[]{ 0, 0, 0 };
+			bpn.Feed ();
+			var currAction = bpn.Output;
+			print (currAction[0]+","+currAction[1]);
+
+			bpn.Input = new float[]{ 1, 1, 1 };
+			bpn.Feed ();
+			currAction = bpn.Output;
+			print (currAction[0]+","+currAction[1]);
+
+			bpn.Input = new float[]{ 1, 0, 1 };
+			bpn.Feed ();
+			currAction = bpn.Output;
+			print (currAction[0]+","+currAction[1]);
+			*/
 		}
 
 		void Update(){
-			float[] state = Target.State;
+			float[] state = TeacherCar.State;
 			bpn.Input = state;
 			bpn.Feed ();
 			if (learn) {
-				float[] action = Target.Action;
-				bpn.Learn (action);
+				float[] action = TeacherCar.Action;
+				//print (state[0]+","+state[1]+","+state[2]+":"+action [0] + "," + action [1]);
+				bpn.Learn (action, 1);
 			} else {
 				float[] currAction = bpn.Output;
-				Target.PerformAction (currAction, Time.deltaTime);
+				MyCar.PerformAction (currAction, Time.deltaTime);
 			}
 		}
 	}

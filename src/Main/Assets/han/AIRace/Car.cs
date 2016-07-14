@@ -14,6 +14,9 @@ namespace AIRace.Model
 		void Awake(){
 			State = new float[3];
 			Action = new float[2];
+			for (var i = 0; i < Action.Length; ++i) {
+				Action [i] = 0.5f;
+			}
 		}
 
 		void Update(){
@@ -21,14 +24,14 @@ namespace AIRace.Model
 		}
 
 		void UpdateState(){
-			State [0] = transform.position.x / 1;
-			State [1] = transform.position.y / 1;
+			State [0] = transform.position.x / 300;
+			State [1] = transform.position.y / 300;
 			State [2] = transform.rotation.eulerAngles.z;
 		}
 
 		public void PerformAction(float[] action, float deltaTime){
-			var forward = action [0]* maxSpeed;
-			var rotation = (action [1]-0.5f)*Mathf.PI;
+			var forward = (action [0]-0.5f)*2 * maxSpeed;
+			var rotation = (action [1]-0.5f)*360;
 			transform.position += transform.right * forward * deltaTime;
 
 			var angle = transform.rotation.eulerAngles;
