@@ -26,7 +26,7 @@ namespace AIRace.Model
 		void UpdateState(){
 			State [0] = transform.position.x / 10;
 			State [1] = transform.position.y / 10;
-			State [2] = transform.rotation.eulerAngles.z;
+			State [2] = transform.rotation.eulerAngles.z/ 360f;
 		}
 
 		public void PerformAction(float[] action, float deltaTime){
