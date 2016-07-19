@@ -36,7 +36,7 @@ namespace AIRace.Model
 				value += inputs [i] * ws [i];
 			}
 			value += 1 * ws [ws.Length - 1];
-			// 用Logistic激發函數
+			// 用Logistic激發函數。輸入值[-6,6]。輸出值[0,1]
 			output = 1/(1+Mathf.Exp(-value));
 		}
 
