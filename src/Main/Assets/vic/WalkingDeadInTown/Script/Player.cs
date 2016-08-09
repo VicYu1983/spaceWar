@@ -6,12 +6,21 @@ using Han.Util;
 namespace WalkingDeadInTown.View{
 	public class Player : MonoBehaviour {
 
+		public GameObject body;
+
 		Vector3 oldPosition;
-		Vector3 usingLeftScale = new Vector3 (-.1f, .1f, .1f);
-		Vector3 usingRightScale = new Vector3 (.1f, .1f, .1f);
+		Vector3 usingLeftScale = new Vector3 (-3f, 3f, 3f);
+		Vector3 usingRightScale = new Vector3 (3f, 3f, 3f);
 
 		string bodyState = "none";
 		float animationTimer = 0f;
+
+		/*
+		 * 701
+		 * 602
+		 * 543
+		 */
+		int dir = 0;
 
 		public void SetState( string state ){
 			switch (state) {
@@ -39,20 +48,23 @@ namespace WalkingDeadInTown.View{
 
 		public void SetPosition( Vector3 pos ){
 			Vector3 posoff = pos - transform.localPosition;
-			if (posoff.y != 0) {
-				bool isUp = posoff.y > 0;
-				SetUpDown (isUp);
-			}
-			if (posoff.x != 0) {
-				bool isLeft = posoff.x < 0;
-				SetLeftRight (isLeft);
-			}
-			if (posoff.magnitude > 1) {
-				SetState ("Running");
+			float speed = posoff.magnitude;
+			if (posoff.magnitude == 0) {
+				//stand
 			} else {
-				SetState ("Walking");
+				//walk
+				if (posoff.y == 0 && posoff.x > 0) {
+					dir = 2;
+				} else if (posoff.y == 0 && posoff.x < 0) {
+					dir = 6;
+				} else if (posoff.x == 0 && posoff.y > 0) {
+					dir = 0;
+				} else if (posoff.x == 0 && posoff.y < 0) {
+					dir = 4;
+				}
 			}
 
+			ChangeAnimation (speed);
 			transform.localPosition = pos;
 		}
 			
@@ -64,21 +76,17 @@ namespace WalkingDeadInTown.View{
 			EventManager.Singleton.Remove (this);
 		}
 
+		void Start(){
+			
+		}
+
 		void Update(){
 			animationTimer += Time.deltaTime;
 			if (animationTimer > .5f) {
 				bodyState = "none";
 			}
 		}
-
-		void SetUpDown( bool isUp ){
-			if (isUp) {
-				transform.Find ("DirectState").GetComponent<TextMesh> ().text = "UP";
-			} else {
-				transform.Find ("DirectState").GetComponent<TextMesh> ().text = "Down";
-			}
-		}
-
+		
 		void SetLeftRight( bool isLeft ){
 			if (isLeft) {
 				transform.Find ("Body").transform.localScale = usingLeftScale;
@@ -87,6 +95,61 @@ namespace WalkingDeadInTown.View{
 				transform.Find ("Body").transform.localScale = usingRightScale;
 				transform.Find ("Foot").transform.localScale = usingRightScale;
 			}
+		}
+
+		void ChangeAnimation( float speed ){
+			if (speed == 0) {
+				switch (dir) {
+				case 0:
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					break;
+				}
+			} else {
+				switch (dir) {
+				case 0:
+					body.GetComponent<Animator> ().Play ("body_walk_back");
+					SetLeftRight (false);
+					break;
+				case 1:
+					SetLeftRight (false);
+					break;
+				case 2:
+					body.GetComponent<Animator> ().Play ("body_walk_right");
+					SetLeftRight (false);
+					break;
+				case 3:
+					SetLeftRight (false);
+					break;
+				case 4:
+					body.GetComponent<Animator> ().Play ("body_walk_front");
+					SetLeftRight (false);
+					break;
+				case 5:
+					SetLeftRight (true);
+					break;
+				case 6:
+					body.GetComponent<Animator> ().Play ("body_walk_right");
+					SetLeftRight (true);
+					break;
+				case 7:
+					SetLeftRight (true);
+					break;
+				}
+			}
+
 		}
 	}
 }
