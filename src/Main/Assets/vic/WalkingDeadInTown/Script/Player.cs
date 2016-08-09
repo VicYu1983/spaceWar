@@ -7,6 +7,7 @@ namespace WalkingDeadInTown.View{
 	public class Player : MonoBehaviour {
 
 		public GameObject body;
+		public GameObject foot;
 
 		Vector3 oldPosition;
 		Vector3 usingLeftScale = new Vector3 (-3f, 3f, 3f);
@@ -98,21 +99,30 @@ namespace WalkingDeadInTown.View{
 		}
 
 		void ChangeAnimation( float speed ){
+			print (speed);
 			if (speed == 0) {
 				switch (dir) {
 				case 0:
+					body.GetComponent<Animator> ().Play ("body_stand_back");
+					foot.GetComponent<Animator> ().Play ("foot_stand_back");
 					break;
 				case 1:
 					break;
 				case 2:
+					body.GetComponent<Animator> ().Play ("body_stand_right");
+					foot.GetComponent<Animator> ().Play ("foot_stand_right");
 					break;
 				case 3:
 					break;
 				case 4:
+					body.GetComponent<Animator> ().Play ("body_stand_front");
+					foot.GetComponent<Animator> ().Play ("foot_stand_front");
 					break;
 				case 5:
 					break;
 				case 6:
+					body.GetComponent<Animator> ().Play ("body_stand_right");
+					foot.GetComponent<Animator> ().Play ("foot_stand_right");
 					break;
 				case 7:
 					break;
@@ -121,35 +131,47 @@ namespace WalkingDeadInTown.View{
 				switch (dir) {
 				case 0:
 					body.GetComponent<Animator> ().Play ("body_walk_back");
-					SetLeftRight (false);
+					foot.GetComponent<Animator> ().Play ("foot_walk_back");
 					break;
 				case 1:
-					SetLeftRight (false);
 					break;
 				case 2:
 					body.GetComponent<Animator> ().Play ("body_walk_right");
-					SetLeftRight (false);
+					foot.GetComponent<Animator> ().Play ("foot_walk_right");
 					break;
 				case 3:
-					SetLeftRight (false);
 					break;
 				case 4:
 					body.GetComponent<Animator> ().Play ("body_walk_front");
-					SetLeftRight (false);
+					foot.GetComponent<Animator> ().Play ("foot_walk_front");
 					break;
 				case 5:
-					SetLeftRight (true);
 					break;
 				case 6:
 					body.GetComponent<Animator> ().Play ("body_walk_right");
-					SetLeftRight (true);
+					foot.GetComponent<Animator> ().Play ("foot_walk_right");
 					break;
 				case 7:
-					SetLeftRight (true);
 					break;
 				}
 			}
 
+			switch (dir) {
+			case 0:
+				break;
+			case 1:
+			case 2:
+			case 3:
+				SetLeftRight (false);
+				break;
+			case 4:
+				break;
+			case 5:
+			case 6:
+			case 7:
+				SetLeftRight (true);
+				break;
+			}
 		}
 	}
 }
