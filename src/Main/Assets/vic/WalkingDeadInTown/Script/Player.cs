@@ -26,17 +26,39 @@ namespace WalkingDeadInTown.View{
 
 		public void SetState( string state ){
 			switch (state) {
-			case "Walking":
-				if( bodyState == "none" )
+			case "Stand":
+				if (bodyState == "none") {
 					transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
-				transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
+					transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
+					StandAnimation (true);
+
+				} else {
+					transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
+					StandAnimation (false);
+				}
+				DefineDir ();
+				break;
+			case "Walking":
+				if (bodyState == "none") {
+					transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
+					transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
+
+					WalkAnimation (true);
+				} else {
+					transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
+					WalkAnimation (false);
+				}
+				DefineDir ();
 				break;
 			case "Running":
-				if( bodyState == "none" )
-					transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
-				transform.Find ("FootState").GetComponent<TextMesh> ().text = state;
 				break;
 			case "Fire":
+				animationTimer = 0;
+
+				bodyState = state;
+				transform.Find ("BodyState").GetComponent<TextMesh> ().text = state;
+				FireAnimation ();
+				break;
 			case "SpecFire":
 			case "Stock":
 			case "SwordAttack":
@@ -79,7 +101,13 @@ namespace WalkingDeadInTown.View{
 				}
 			}
 
-			ChangeAnimation (speed);
+			if (speed == 0) {
+				SetState ("Stand");
+			} else {
+				SetState ("Walking");
+			}
+			
+			//ChangeAnimation (speed);
 			transform.localPosition = pos;
 		}
 			
@@ -112,67 +140,7 @@ namespace WalkingDeadInTown.View{
 			}
 		}
 
-		void ChangeAnimation( float speed ){
-			if (speed == 0) {
-				switch (dir) {
-				case 0:
-					body.GetComponent<Animator> ().Play ("body_stand_back");
-					foot.GetComponent<Animator> ().Play ("foot_stand_back");
-					break;
-				case 1:
-					break;
-				case 2:
-					body.GetComponent<Animator> ().Play ("body_stand_right");
-					foot.GetComponent<Animator> ().Play ("foot_stand_right");
-					break;
-				case 3:
-					break;
-				case 4:
-					body.GetComponent<Animator> ().Play ("body_stand_front");
-					foot.GetComponent<Animator> ().Play ("foot_stand_front");
-					break;
-				case 5:
-					break;
-				case 6:
-					body.GetComponent<Animator> ().Play ("body_stand_right");
-					foot.GetComponent<Animator> ().Play ("foot_stand_right");
-					break;
-				case 7:
-					break;
-				}
-			} else {
-				switch (dir) {
-				case 0:
-					body.GetComponent<Animator> ().Play ("body_walk_back");
-					foot.GetComponent<Animator> ().Play ("foot_walk_back");
-					break;
-				case 1:
-					body.GetComponent<Animator> ().Play ("body_walk_back_right");
-					break;
-				case 2:
-					body.GetComponent<Animator> ().Play ("body_walk_right");
-					foot.GetComponent<Animator> ().Play ("foot_walk_right");
-					break;
-				case 3:
-					body.GetComponent<Animator> ().Play ("body_walk_front_right");
-					break;
-				case 4:
-					body.GetComponent<Animator> ().Play ("body_walk_front");
-					foot.GetComponent<Animator> ().Play ("foot_walk_front");
-					break;
-				case 5:
-					body.GetComponent<Animator> ().Play ("body_walk_front_right");
-					break;
-				case 6:
-					body.GetComponent<Animator> ().Play ("body_walk_right");
-					foot.GetComponent<Animator> ().Play ("foot_walk_right");
-					break;
-				case 7:
-					body.GetComponent<Animator> ().Play ("body_walk_back_right");
-					break;
-				}
-			}
-
+		void DefineDir(){
 			switch (dir) {
 			case 0:
 				break;
@@ -187,6 +155,95 @@ namespace WalkingDeadInTown.View{
 			case 6:
 			case 7:
 				SetLeftRight (true);
+				break;
+			}
+		}
+
+		void StandAnimation( bool alsoBody = true ){
+			switch (dir) {
+			case 0:
+				if( alsoBody )
+					body.GetComponent<Animator> ().Play ("body_stand_back");
+				foot.GetComponent<Animator> ().Play ("foot_stand_back");
+				break;
+			case 1:
+			case 7:
+				if( alsoBody )
+					body.GetComponent<Animator> ().Play ("body_stand_back_right");
+				foot.GetComponent<Animator> ().Play ("foot_stand_back_right");
+				break;
+			case 2:
+			case 6:
+				if( alsoBody )
+					body.GetComponent<Animator> ().Play ("body_stand_right");
+				foot.GetComponent<Animator> ().Play ("foot_stand_right");
+				break;
+			case 3:
+			case 5:
+				if( alsoBody )
+					body.GetComponent<Animator> ().Play ("body_stand_front_right");
+				foot.GetComponent<Animator> ().Play ("foot_stand_front_right");
+				break;
+			case 4:
+				if( alsoBody )
+					body.GetComponent<Animator> ().Play ("body_stand_front");
+				foot.GetComponent<Animator> ().Play ("foot_stand_front");
+				break;
+			}
+		}
+
+		void FireAnimation(){
+			switch (dir) {
+			case 0:
+				body.GetComponent<Animator> ().Play ("body_fire_back");
+				break;
+			case 1:
+			case 7:
+				body.GetComponent<Animator> ().Play ("body_fire_back_right");
+				break;
+			case 2:
+			case 6:
+				body.GetComponent<Animator> ().Play ("body_fire_right");
+				break;
+			case 3:
+			case 5:
+				body.GetComponent<Animator> ().Play ("body_fire_front_right");
+				break;
+			case 4:
+				body.GetComponent<Animator> ().Play ("body_fire_front");
+				break;
+			}
+		}
+
+		void WalkAnimation( bool alsoBody = true ){
+			switch (dir) {
+			case 0:
+				if (alsoBody)
+					body.GetComponent<Animator> ().Play ("body_walk_back");
+				foot.GetComponent<Animator> ().Play ("foot_walk_back");
+				break;
+			case 1:
+			case 7:
+				if (alsoBody)
+					body.GetComponent<Animator> ().Play ("body_walk_back_right");
+				foot.GetComponent<Animator> ().Play ("foot_walk_back_right");
+				break;
+			case 2:
+			case 6:
+				if (alsoBody)
+					body.GetComponent<Animator> ().Play ("body_walk_right");
+				foot.GetComponent<Animator> ().Play ("foot_walk_right");
+				break;
+			case 3:
+			case 5:
+				if (alsoBody)
+					body.GetComponent<Animator> ().Play ("body_walk_front_right");
+				foot.GetComponent<Animator> ().Play ("foot_walk_front_right");
+				break;
+			case 4:
+				if (alsoBody)
+					body.GetComponent<Animator> ().Play ("body_walk_front");
+				foot.GetComponent<Animator> ().Play ("foot_walk_front");
 				break;
 			}
 		}
