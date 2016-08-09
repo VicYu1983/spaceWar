@@ -16,12 +16,13 @@ namespace WalkingDeadInDown.Model
 		void Start(){
 			var obj = Instantiate (player);
 			obj.SetActive (true);
-
+			/*
 			var obj2 = Instantiate (enemy, new Vector3(2,2,0), new Quaternion()) as GameObject;
 			obj2.SetActive (true);
 
 			var obj3 = Instantiate (enemy, new Vector3(4,2,0), new Quaternion()) as GameObject;
 			obj3.SetActive (true);
+			*/
 		}
 
 		void OnDestroy(){

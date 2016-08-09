@@ -8,6 +8,7 @@ namespace WalkingDeadInTown.View{
 
 		public GameObject body;
 		public GameObject foot;
+		public float dir_fac = 20;
 
 		Vector3 oldPosition;
 		Vector3 usingLeftScale = new Vector3 (-3f, 3f, 3f);
@@ -54,14 +55,27 @@ namespace WalkingDeadInTown.View{
 				//stand
 			} else {
 				//walk
-				if (posoff.y == 0 && posoff.x > 0) {
-					dir = 2;
-				} else if (posoff.y == 0 && posoff.x < 0) {
+
+				float radian = Mathf.Atan2 (posoff.y, posoff.x);
+				float degree = radian / Mathf.PI * 180;
+				degree += 180;
+
+				if (degree < (0 + dir_fac) || degree > (360 - dir_fac)) {
 					dir = 6;
-				} else if (posoff.x == 0 && posoff.y > 0) {
-					dir = 0;
-				} else if (posoff.x == 0 && posoff.y < 0) {
+				} else if (degree > 0 + dir_fac && degree < 90 - dir_fac) {
+					dir = 5;
+				} else if (degree > 90 - dir_fac && degree < 90 + dir_fac) {
 					dir = 4;
+				} else if (degree > (90 + dir_fac) && degree < (180 - dir_fac)) {
+					dir = 3;
+				} else if (degree > 180 - dir_fac && degree < 180 + dir_fac) {
+					dir = 2;
+				} else if (degree > 180 + dir_fac && degree < 270 - dir_fac) {
+					dir = 1;
+				} else if (degree > 270 - dir_fac && degree < 270 + dir_fac) {
+					dir = 0;
+				} else if (degree > 270 + dir_fac && degree < 360 - dir_fac) {
+					dir = 7;
 				}
 			}
 
@@ -99,7 +113,6 @@ namespace WalkingDeadInTown.View{
 		}
 
 		void ChangeAnimation( float speed ){
-			print (speed);
 			if (speed == 0) {
 				switch (dir) {
 				case 0:
@@ -134,24 +147,28 @@ namespace WalkingDeadInTown.View{
 					foot.GetComponent<Animator> ().Play ("foot_walk_back");
 					break;
 				case 1:
+					body.GetComponent<Animator> ().Play ("body_walk_back_right");
 					break;
 				case 2:
 					body.GetComponent<Animator> ().Play ("body_walk_right");
 					foot.GetComponent<Animator> ().Play ("foot_walk_right");
 					break;
 				case 3:
+					body.GetComponent<Animator> ().Play ("body_walk_front_right");
 					break;
 				case 4:
 					body.GetComponent<Animator> ().Play ("body_walk_front");
 					foot.GetComponent<Animator> ().Play ("foot_walk_front");
 					break;
 				case 5:
+					body.GetComponent<Animator> ().Play ("body_walk_front_right");
 					break;
 				case 6:
 					body.GetComponent<Animator> ().Play ("body_walk_right");
 					foot.GetComponent<Animator> ().Play ("foot_walk_right");
 					break;
 				case 7:
+					body.GetComponent<Animator> ().Play ("body_walk_back_right");
 					break;
 				}
 			}
